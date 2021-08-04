@@ -82,7 +82,7 @@ class JAVLibrary:
         # Find the image
         image = soup.find("img", {"id": "video_jacket_img"})
         if image:
-            out["image"] = image["src"]
+            out["image"] = "https:" + image["src"] if not image["src"].startswith("http") else image["src"]
 
         # Generic video info table
         video_info = soup.find("div", {"id": "video_info"})

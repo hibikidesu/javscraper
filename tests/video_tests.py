@@ -13,7 +13,6 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "Kamon Non")
         self.assertIsNone(result.sample_video)
-        print(result.image)
         self.assertTrue(result.image.startswith("http"))
 
     def test_mgstage(self):
@@ -28,6 +27,8 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "りなちゃん")
         self.assertIsNotNone(result.sample_video)
         self.assertIsNotNone(result.description)
+        self.assertTrue(result.image.startswith("http"))
+        self.assertTrue(result.sample_video.startswith("http"))
 
     def test_r18(self):
         base = R18()
@@ -41,6 +42,8 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "Shoko Takahashi")
         self.assertIsNotNone(result.sample_video)
         self.assertIsNotNone(result.description)
+        self.assertTrue(result.image.startswith("http"))
+        self.assertTrue(result.sample_video.startswith("http"))
 
     def test_s1(self):
         base = S1()
@@ -53,6 +56,8 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "藤田こずえ")
         self.assertIsNotNone(result.sample_video)
         self.assertIsNotNone(result.description)
+        self.assertTrue(result.image.startswith("http"))
+        self.assertTrue(result.sample_video.startswith("http"))
 
 
 if __name__ == '__main__':
