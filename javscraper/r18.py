@@ -13,6 +13,77 @@ __all__ = ["R18"]
 
 class R18:
     BASE = "https://www.r18.com"
+    UNCENSORED = {
+        "[Recommended For Smartphones] ": "",
+        "A*****t": "Assault",
+        "A*****ted": "Assaulted",
+        "A****p": "Asleep",
+        "A***e": "Abuse",
+        "B***d": "Blood",
+        "B**d": "Bled",
+        "C***d": "Child",
+        "D******ed": "Destroyed",
+        "D******eful": "Shameful",
+        "D***k": "Drunk",
+        "D***king": "Drinking",
+        "D**g": "Drug",
+        "D**gged": "Drugged",
+        "F***": "Fuck",
+        "F*****g": "Forcing",
+        "F***e": "Force",
+        "G*********d": "Gang Banged",
+        "G*******g": "Gang bang",
+        "G******g": "Gangbang",
+        "H*********n": "Humiliation",
+        "H*******ed": "Hypnotized",
+        "H*******m": "Hypnotism",
+        "I****t": "Incest",
+        "I****tuous": "Incestuous",
+        "K****p": "Kidnap",
+        "K**l": "Kill",
+        "K**ler": "Killer",
+        "K*d": "Kid",
+        "Ko**ji": "Komyo-ji",
+        "Lo**ta": "Lolita",
+        "M******r": "Molester",
+        "M****t": "Molest",
+        "M****ted": "Molested",
+        "M****ter": "Molester",
+        "M****ting": "Molesting",
+        "P****h": "Punish",
+        "P****hment": "Punishment",
+        "P*A": "PTA",
+        "R****g": "Raping",
+        "R**e": "Rape",
+        "R**ed": "Raped",
+        "S*********l": "School Girl",
+        "S*********ls": "School Girls",
+        "S********l": "Schoolgirl",
+        "S********n": "Submission",
+        "S******g": "Sleeping",
+        "S*****t": "Student",
+        "S***e": "Slave",
+        "S***p": "Sleep",
+        "S**t": "Shit",
+        "Sch**l": "School",
+        "Sch**lgirl": "Schoolgirl",
+        "Sch**lgirls": "Schoolgirls",
+        "SK**lful": "Skillful",
+        "SK**ls": "Skills",
+        "StepB****************r": "Stepbrother and Sister",
+        "StepM************n": "Stepmother and Son",
+        "StumB**d": "Stumbled",
+        "T*****e": "Torture",
+        "U*********sly": "Unconsciously",
+        "U**verse": "Universe",
+        "V*****e": "Violate",
+        "V*****ed": "Violated",
+        "V*****es": "Violates",
+        "V*****t": "Violent",
+        "Y********l": "Young Girl",
+        "R*pe": "Rape",
+        "D******e": "Disgrace",
+    }
 
     def __init__(self, driver=None, headless: bool = True):
         """
@@ -76,7 +147,7 @@ class R18:
 
         # Get title
         title = self.driver.find_element_by_class_name("sc-dTSxUT")
-        out["name"] = title.text
+        out["name"] = self.uncensor_string(title.text)
 
         # Parse common data
         # 1st div of data
@@ -89,7 +160,7 @@ class R18:
             elif name == "Categories":
                 out["genres"] = []
                 for genre in i.find_elements_by_tag_name("a"):
-                    out["genres"].append(genre.text)
+                    out["genres"].append(self.uncensor_string(genre.text))
             elif name == "Studio":
                 out["studio"] = i.find_element_by_tag_name("a").text
 
@@ -131,3 +202,13 @@ class R18:
         out["image"] = match.group(1)
 
         return JAVResult(**out)
+
+    def uncensor_string(self, text: str) -> str:
+        """
+        Uncensors a censored string
+        :param text: Censored input
+        :return: Uncensored output
+        """
+        for i in self.UNCENSORED:
+            text = text.replace(i, self.UNCENSORED[i])
+        return text
