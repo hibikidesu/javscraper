@@ -1,8 +1,13 @@
 from setuptools import setup
 
 # Requirements
-with open("requirements.txt", "r") as f:
-    requirements = f.read().split("\n")
+requirements = [
+    "requests>=2.26.0",
+    "beautifulsoup4>=4.9.3",
+    "lxml>=4.6.3",
+    "cloudscraper>=1.2.58",
+    "selenium>=3.141.0"
+]
 
 
 setup(
