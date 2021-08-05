@@ -71,12 +71,6 @@ class SOD:
         description = self.driver.find_element_by_tag_name("article")
         out["description"] = description.text
 
-        # Get the image
-        self.driver.find_element_by_class_name("popup-image").click()
-        time.sleep(0.1)
-        out["image"] = self.driver.find_element_by_class_name("mfp-img").get_attribute("src")
-        self.driver.find_element_by_class_name("mfp-close").click()
-
         # Parse common
         table = self.driver.find_element_by_tag_name("table")
         for item in table.find_elements_by_tag_name("tr"):
@@ -98,6 +92,11 @@ class SOD:
                 out["genres"] = []
                 for genre in item.find_elements_by_tag_name("a"):
                     out["genres"].append(genre.text)
+
+        # Get the image
+        self.driver.find_element_by_class_name("popup-image").click()
+        time.sleep(0.1)
+        out["image"] = self.driver.find_element_by_class_name("mfp-img").get_attribute("src")
 
         return JAVResult(**out)
 
