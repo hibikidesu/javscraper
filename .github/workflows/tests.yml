@@ -25,7 +25,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        sudo apt install geckodriver
+    - name: Install geckodriver
+      run: |
+        wget https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz
+        tar -xvzf geckodriver*
+        chmod +x geckodriver
+        export PATH=$PATH:$(pwd)
     - name: Run tests
       run: |
         for test in tests/*.py; do python $test; done
