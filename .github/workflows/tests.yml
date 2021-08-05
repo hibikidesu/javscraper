@@ -31,6 +31,9 @@ jobs:
         tar -xvzf geckodriver*
         chmod +x geckodriver
         export PATH=$PATH:$(pwd)
+    - name: Install package
+      run: |
+        python setup.py install
     - name: Run tests
       run: |
         for test in tests/*.py; do python $test; done
