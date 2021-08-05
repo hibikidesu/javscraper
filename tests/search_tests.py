@@ -28,6 +28,15 @@ class SearchTests(unittest.TestCase):
         self.assertTrue(len(result) > 0)
         self.assertTrue("mide00805" in result[0])
 
+    def test_sod(self):
+        base = SOD()
+
+        result = base.search("OKS-116")
+        self.assertTrue(len(result) > 0)
+        self.assertTrue("OKS-116" in result[0])
+
+        base.close()
+
 
 if __name__ == '__main__':
     unittest.main()

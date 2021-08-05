@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from typing import List, Optional
 from datetime import datetime
+from urllib.parse import urljoin
 from .utils import *
 
 __all__ = ["JAVLibrary"]
@@ -38,7 +39,7 @@ class JAVLibrary:
         redirect_location = result.headers.get("Location")
         if redirect_location:
             # Return the URL of the location
-            return [f"{self.BASE}/{self.region}/{redirect_location.rpartition('/')[2]}"]
+            return [urljoin(result.url, redirect_location)]
 
         soup = BeautifulSoup(result.content, "lxml")
 
@@ -47,7 +48,7 @@ class JAVLibrary:
 
         videos = soup.find("div", {"class": "videos"})
         for video in videos.find_all("div", {"class": "video"}):
-            out.append(f"{self.BASE}/{self.region}/?v={video['id'].rpartition('vid_')[2]}")
+            out.append(urljoin(result.url, video.find("a")["href"]))
 
         return out
 

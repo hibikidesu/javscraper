@@ -32,6 +32,9 @@ class S1:
         out = {"studio": "S1 NO.1 STYLE"}
         soup = BeautifulSoup(result.content, "lxml")
 
+        if soup.find("div", {"class": "p-notFound"}):
+            return None
+
         # Get title
         title = soup.find("h2", {"class": "p-workPage__title"})
         if title:

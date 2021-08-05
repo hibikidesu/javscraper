@@ -6,6 +6,7 @@ Scraper library for JAVs.
 - JAVLibrary
 - MGStage
 - S1S1S1
+- SOD Prime
 
 ## Requirements
 - python3.4+

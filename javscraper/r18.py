@@ -89,6 +89,7 @@ class R18:
         """
         Creates a scraper for R18 using a given driver
         :param driver: Selenium driver, if none is given, Firefox (geckodriver) will be used
+        :param headless: Run the default driver in headless mode
         """
         # Create driver
         if driver is None:
@@ -142,8 +143,12 @@ class R18:
         out = {}
         self.driver.get(video)
 
-        # Sleep for cloudflare?
-        time.sleep(6)
+        # Cloudflare checks
+        start_time = time.time()
+        while self.driver.title.startswith("Just a moment"):
+            time.sleep(1)
+            if (time.time() - start_time) > 10:
+                raise ConnectionError("Unable to get past cloudflare checks.")
 
         # Get title
         title = self.driver.find_element_by_class_name("sc-dTSxUT")
@@ -212,3 +217,10 @@ class R18:
         for i in self.UNCENSORED:
             text = text.replace(i, self.UNCENSORED[i])
         return text
+
+    def close(self):
+        """
+        Closes the current driver in use
+        :return:
+        """
+        self.driver.close()
