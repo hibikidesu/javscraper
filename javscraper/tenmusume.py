@@ -15,7 +15,9 @@ __all__ = ["TenMusume"]
 class TenMusume:
 
     def __init__(self, english: bool = False, driver=None, headless: bool = True):
-        self.BASE = f"https://www.10musume.com"
+        self.english: bool = english
+
+        self.BASE: str = f"https://www.10musume.com"
         if english:
             self.BASE = f"https://en.10musume.com"
 
@@ -82,11 +84,9 @@ class TenMusume:
         title = self.driver.find_element_by_class_name("heading")
         out["name"] = title.find_element_by_tag_name("h1").text
 
-        try:
+        if not self.english:
             description = self.driver.find_element_by_tag_name("p")
             out["description"] = description.text
-        except:
-            pass
 
         # Common data
         table = self.driver.find_element_by_class_name("movie-info")
