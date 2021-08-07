@@ -23,15 +23,14 @@ python -m pip install -U javscraper
 
 ## Usage
 ```python
-from javscraper import *
-
-javlibrary = JAVLibrary()
+>>> from javscraper import *
+>>> javlibrary = JAVLibrary()
 
 # Searching for videos
-print(javlibrary.search("SSIS-001"))
+>>> print(javlibrary.search("SSIS-001"))
 [...]
 
 # Getting video data
-print(javlibrary.get_video("SSIS-001"))
+>>> print(javlibrary.get_video("SSIS-001"))
 JAVResult(name=..., code=..., studio=..., ...)
 ```
