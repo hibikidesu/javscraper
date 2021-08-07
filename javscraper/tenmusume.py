@@ -1,4 +1,3 @@
-from bs4 import BeautifulSoup
 from typing import List, Optional
 from datetime import datetime
 from urllib.parse import urljoin, urlencode
@@ -95,7 +94,10 @@ class TenMusume:
             name = li.find_element_by_class_name("spec-title").text
             if name in ["配信日", "Release Date"]:
                 value = li.find_element_by_class_name("spec-content")
-                out["release_date"] = value.text
+                out["release_date"] = datetime.strptime(
+                    value.text.strip().partition(" ")[0],
+                    "%Y/%m/%d"
+                )
             elif name in ["出演", "Featuring"]:
                 out["actresses"] = []
                 for actress in li.find_elements_by_tag_name("a"):
