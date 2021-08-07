@@ -77,8 +77,12 @@ class TenMusume:
         # Wait for site
         time.sleep(3)
 
-        image = self.driver.find_element_by_id("video-player-0_html5_api")
-        out["image"] = urljoin(self.driver.current_url, image.get_attribute("poster"))
+        try:
+            image = self.driver.find_element_by_id("video-player-0_html5_api")
+            out["image"] = urljoin(self.driver.current_url, image.get_attribute("poster"))
+        except:
+            player_image = self.driver.find_element_by_class_name("player-image")
+            out["image"] = urljoin(self.driver.current_url, player_image.find_element_by_tag_name("img").get_attribute("src"))
 
         title = self.driver.find_element_by_class_name("heading")
         out["name"] = title.find_element_by_tag_name("h1").text
