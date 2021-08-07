@@ -84,8 +84,6 @@ class VideoTests(unittest.TestCase):
         self.assertIsNotNone(result.description)
         self.assertIsNone(result.sample_video)
 
-        base.close()
-
 
 if __name__ == '__main__':
     unittest.main()
