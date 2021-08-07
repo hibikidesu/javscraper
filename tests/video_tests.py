@@ -84,6 +84,35 @@ class VideoTests(unittest.TestCase):
         self.assertIsNotNone(result.description)
         self.assertIsNone(result.sample_video)
 
+    def test_10musume(self):
+        base = TenMusume()
+
+        result = base.get_video("1")
+        self.assertIsNone(result)
+
+        result = base.get_video("080521_01")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "080521_01")
+        self.assertEqual(result.studio, "10musume")
+        self.assertTrue(result.image.startswith("https"))
+        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "竹田しょうこ")
+        self.assertIsNotNone(result.description)
+        self.assertIsNone(result.sample_video)
+
+        base = TenMusume(english=True, driver=base.driver)
+        result = base.get_video("080521_01")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "080521_01")
+        self.assertEqual(result.studio, "10musume")
+        self.assertTrue(result.image.startswith("https"))
+        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "Shouko Takeda")
+        self.assertIsNone(result.description)
+        self.assertIsNone(result.sample_video)
+
+        base.close()
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -7,6 +7,7 @@ Scraper library for JAVs.
 - MGStage
 - S1S1S1
 - SOD Prime
+- 10Musume
 
 ## Requirements
 - python3.4+

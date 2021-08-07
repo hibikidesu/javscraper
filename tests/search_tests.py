@@ -32,9 +32,16 @@ class SearchTests(unittest.TestCase):
         base = SOD()
 
         result = base.search("OKS-116")
-        print(result)
         self.assertTrue(len(result) > 0)
         self.assertTrue("OKS-116" in result[0])
+
+    def test_10musume(self):
+        base = TenMusume()
+
+        result = base.search("maid")
+        self.assertTrue(len(result) > 0)
+
+        base.close()
 
 
 if __name__ == '__main__':
