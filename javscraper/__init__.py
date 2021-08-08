@@ -6,4 +6,4 @@ from .sod import SOD
 from .tenmusume import TenMusume
 from .ideapocket import IdeaPocket
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
