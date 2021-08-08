@@ -113,6 +113,22 @@ class VideoTests(unittest.TestCase):
 
         base.close()
 
+    def test_ideapocket(self):
+        base = IdeaPocket()
+
+        result = base.get_video("IPX-10000")
+        self.assertIsNone(result)
+
+        result = base.get_video("IPX-445")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "IPX-445")
+        self.assertEqual(result.studio, "IdeaPocket")
+        self.assertTrue(result.image.startswith("https"))
+        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "希島あいり")
+        self.assertIsNotNone(result.description)
+        self.assertIsNotNone(result.sample_video)
+
 
 if __name__ == '__main__':
     unittest.main()

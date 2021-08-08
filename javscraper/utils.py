@@ -4,7 +4,7 @@ from typing import List, Optional
 from dataclasses import dataclass
 from datetime import datetime
 
-__all__ = ["SCRAPER", "JAVResult", "perform_request"]
+__all__ = ["SCRAPER", "JAVResult", "perform_request", "fix_jav_code"]
 
 # Global scraper without needing to make a new instance per request
 SCRAPER = cloudscraper.create_scraper(
@@ -40,3 +40,29 @@ def perform_request(method: str, url: str, *args, **kwargs):
     :return:
     """
     return SCRAPER.request(method, url, *args, **kwargs)
+
+
+def fix_jav_code(code: str) -> str:
+    """
+    Fixes JAV code for a joined code, only works with standard? codes,
+    non amateur or other studios.
+    :param code: Code to fix
+    :return: Fixed code
+    """
+    letters = ""
+    numbers = ""
+
+    # Force uppercase
+    code = code.upper()
+
+    # Find starting letters (IPX-XXX)
+    for char in code:
+        # For characters in uppercase alphabet or is a number
+        if ord(char) in range(65, 91):
+            letters += char
+        elif ord(char) in range(48, 58):
+            numbers += char
+
+    # Return rejoined code with padded number
+    number = int(numbers)
+    return f"{letters}-{number:03}"
