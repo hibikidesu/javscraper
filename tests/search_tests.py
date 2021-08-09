@@ -59,6 +59,36 @@ class SearchTests(unittest.TestCase):
         self.assertTrue(len(result) > 0)
         self.assertTrue(result[0].startswith("http"))
 
+    def test_caribbeancom_ja(self):
+        base = Caribbeancom()
+
+        result = base.search("aaaaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("溺れた白ビキニちゃんを助けたお礼に中出し恩返し")
+        self.assertTrue(len(result) > 0)
+        self.assertTrue("080621-001" in result[0])
+
+    def test_caribbeancom_en(self):
+        base = Caribbeancom("en")
+
+        result = base.search("aaaaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("White bikini woman did creampie gratitude for saved life from drown")
+        self.assertTrue(len(result) > 0)
+        self.assertTrue("080621-001" in result[0])
+
+    def test_caribbeancom_cn(self):
+        base = Caribbeancom("cn")
+
+        result = base.search("aaaaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("White bikini woman did creampie gratitude for saved life from drown")
+        self.assertTrue(len(result) > 0)
+        self.assertTrue("080621-001" in result[0])
+
 
 if __name__ == '__main__':
     unittest.main()

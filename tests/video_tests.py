@@ -129,6 +129,57 @@ class VideoTests(unittest.TestCase):
         self.assertIsNotNone(result.description)
         self.assertIsNotNone(result.sample_video)
 
+    def test_caribbeancom_ja(self):
+        base = Caribbeancom()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("Caribbeancom-080621_001")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "080621-001")
+        self.assertEqual(result.studio, "Caribbeancom")
+        self.assertTrue(result.image.startswith("https"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("https"))
+        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "輝月あんり")
+        self.assertIsNotNone(result.description)
+
+    def test_caribbeancom_en(self):
+        base = Caribbeancom("en")
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("Caribbeancom-080621_001")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "080621-001")
+        self.assertEqual(result.studio, "Caribbeancom")
+        self.assertTrue(result.image.startswith("https"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("https"))
+        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "Anri Kizuki")
+        self.assertIsNotNone(result.description)
+
+    def test_caribbeancom_cn(self):
+        base = Caribbeancom("cn")
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("Caribbeancom-080621_001")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "080621-001")
+        self.assertEqual(result.studio, "Caribbeancom")
+        self.assertTrue(result.image.startswith("https"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("https"))
+        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "Anri Kizuki")
+        self.assertIsNotNone(result.description)
+
 
 if __name__ == '__main__':
     unittest.main()

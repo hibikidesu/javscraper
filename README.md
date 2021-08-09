@@ -9,6 +9,7 @@ Scraper library for JAVs.
 - SOD Prime
 - 10Musume
 - IdeaPocket
+- Caribbeancom
 
 ## Requirements
 - python3.4+
