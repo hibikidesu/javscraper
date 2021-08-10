@@ -13,12 +13,8 @@ Scraper library for JAVs.
 
 ## Requirements
 - python3.4+
-- geckodriver
 
 ## Installation
-Install geckodriver or your custom driver of choice from
-your package manager or add it to your PATH then install
-the library.
 ```commandline
 python -m pip install -U javscraper
 ```

@@ -1,118 +1,59 @@
-from bs4 import BeautifulSoup
-from typing import List, Optional
-from datetime import datetime
-from .utils import *
+from abc import ABC
+from typing import Optional
+
+import re
+from urllib.parse import quote
+from .base import Base
+from .utils import perform_request
 
 __all__ = ["MGStage"]
 
 
-class MGStage:
-    BASE = "https://www.mgstage.com"
+class MGStage(Base, ABC):
 
     def __init__(self):
-        # Age check
-        SCRAPER.cookies.set("adc", "1")
+        super().__init__(base_url="https://www.mgstage.com")
+        self._set_cookies({"adc": "1"})
+        self._set_date_fmt("%Y/%m/%d")
+        self._set_fail_callback(self._fail_callback)
+        self._set_search_xpath("//div[@class='rank_list']/ul/li/h5/a")
+        self._set_video_xpath({
+            "name": "//div[@class='common_detail_cover']/h1",
+            "code": self._fix_code,
+            "studio": "//tr[th='メーカー：']/td/a",
+            "image": self._fix_image,
+            "actresses": "//tr[th='出演：']/td/a",
+            "genres": "//tr[th='ジャンル：']/td/a",
+            "release_date": "//tr[th='配信開始日：']/td",
+            "description": "//p[contains(@class, 'introduction')]",
+            "sample_video": self._fix_sample_video
+        })
 
-    def search(self, query: str, **kwargs) -> List[str]:
-        """
-        Searches for videos with given query.
-        :param query: Search terms
-        :param kwargs: Extra params to specify
-        :return: List of found URLs
-        """
-        # Make request
-        result = perform_request(
-            "GET",
-            f"{self.BASE}/search/cSearch.php",
-            params={
-                "search_word": query,
-                **kwargs
-            }
-        )
+    def _build_search_path(self, query: str) -> str:
+        return f"/search/cSearch.php?search_word={quote(query)}"
 
-        # Check for errors
-        result.raise_for_status()
+    def _build_video_path(self, query: str) -> Optional[str]:
+        return f"{self.PARAMS['base_url']}/product/product_detail/{query}/"
 
-        # Get videos
-        soup = BeautifulSoup(result.content, "lxml")
-        data = soup.find("div", {"class": "rank_list"})
+    @staticmethod
+    def _fail_callback(result):
+        if result.url == "https://www.mgstage.com/":
+            raise ValueError()
 
-        # If missing div
-        if data is None:
-            return []
+    @staticmethod
+    def _fix_code(url: str, tree) -> str:
+        return re.search(r"product_detail/([a-zA-Z0-9-_]*)", url).group(1)
 
-        out = []
-        for r in data.find_all("li"):
-            # Build full URL
-            out.append(self.BASE + r.find("a")["href"])
+    @staticmethod
+    def _fix_image(url: str, tree) -> str:
+        return tree.xpath("//a[@id='EnlargeImage']")[0].get("href")
 
-        return out
-
-    def get_video(self, code: str) -> Optional[JAVResult]:
-        """
-        Returns data for a found jav
-        :param code: JAV code
-        :return: JAV results
-        """
-        # Perform request
-        result = perform_request(
-            "GET",
-            f"{self.BASE}/product/product_detail/{code}/"
-        )
-        result.raise_for_status()
-
-        # Get data
-        out = {"code": code}
-        soup = BeautifulSoup(result.content, "lxml")
-
-        common_data = soup.find("div", {"class": "common_detail_cover"})
-        if not common_data:
-            return None
-
-        # Get title
-        title = common_data.find("h1", {"class": "tag"})
-        if title:
-            out["name"] = title.text.strip()
-
-        # Get image
-        image = common_data.find("a", {"id": "EnlargeImage"})
-        if image:
-            out["image"] = image["href"]
-
-        # Get common data, changes depending on video
-        # Find the table responsible for data
-        detail_data = common_data.find("div", {"detail_data"})
-        if len(detail_data.find_all("table")) > 1:
-            table = detail_data.find_all("table")[1]
-        else:
-            table = detail_data.find("table")
-
-        for tr in table.find_all("tr"):
-            name = tr.find("th").text
-            if name == "出演：":
-                out["actresses"] = []
-                for a in tr.find_all("a"):
-                    out["actresses"].append(a.text.strip())
-            elif name == "メーカー：":
-                maker = tr.find("a")
-                out["studio"] = maker.text.strip()
-            elif name == "配信開始日：":
-                out["release_date"] = datetime.strptime(tr.find("td").text, "%Y/%m/%d")
-            elif name == "ジャンル：":
-                out["genres"] = []
-                for genre in tr.find_all("a"):
-                    out["genres"].append(genre.text.strip())
-
-        # Find description
-        description = common_data.find("dl", {"id": "introduction"}).find("p")
-        if description:
-            out["description"] = description.text
-
-        # Find sample video
-        sample_button = soup.find("a", {"class": "button_sample"})
+    @staticmethod
+    def _fix_sample_video(url: str, tree):
+        sample_button = tree.xpath("//a[@class='button_sample']")[0].get("href")
         if sample_button:
             # Find PID
-            pid = sample_button["href"].rpartition("/")[2]
+            pid = sample_button.rpartition("/")[2]
 
             # Make request for video
             sample_video_url = perform_request(
@@ -120,13 +61,13 @@ class MGStage:
                 "https://www.mgstage.com/sampleplayer/sampleRespons.php",
                 params={
                     "pid": pid
-                }
+                },
+                cookies={"adc": "1"}
             ).json()
 
             # Parse out url if exists
             url = sample_video_url.get("url")
             if url:
                 url = url.partition(".ism")[0] + ".mp4"
-                out["sample_video"] = url
-
-        return JAVResult(**out)
+                return url
+        return None

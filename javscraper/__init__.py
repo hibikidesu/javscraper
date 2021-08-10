@@ -7,4 +7,4 @@ from .tenmusume import TenMusume
 from .ideapocket import IdeaPocket
 from .caribbeancom import Caribbeancom
 
-__version__ = "1.0.4"
+__version__ = "1.1.0"

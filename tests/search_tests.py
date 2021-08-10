@@ -3,8 +3,47 @@ from javscraper import *
 
 
 class SearchTests(unittest.TestCase):
-    def test_javlibrary(self):
+    def test_javlibrary_en(self):
         base = JAVLibrary()
+
+        result = base.search("SDAB-187")
+        self.assertTrue(len(result) > 0)
+        self.assertTrue("javme5zn6e" in result[0])
+        self.assertTrue(result[0].startswith("http"))
+
+        result = base.search("SSIS-001")
+        self.assertTrue(len(result) > 0)
+        self.assertTrue("javmezzbqu" in result[0])
+        self.assertTrue(result[0].startswith("http"))
+
+    def test_javlibrary_ja(self):
+        base = JAVLibrary("ja")
+
+        result = base.search("SDAB-187")
+        self.assertTrue(len(result) > 0)
+        self.assertTrue("javme5zn6e" in result[0])
+        self.assertTrue(result[0].startswith("http"))
+
+        result = base.search("SSIS-001")
+        self.assertTrue(len(result) > 0)
+        self.assertTrue("javmezzbqu" in result[0])
+        self.assertTrue(result[0].startswith("http"))
+
+    def test_javlibrary_tw(self):
+        base = JAVLibrary("tw")
+
+        result = base.search("SDAB-187")
+        self.assertTrue(len(result) > 0)
+        self.assertTrue("javme5zn6e" in result[0])
+        self.assertTrue(result[0].startswith("http"))
+
+        result = base.search("SSIS-001")
+        self.assertTrue(len(result) > 0)
+        self.assertTrue("javmezzbqu" in result[0])
+        self.assertTrue(result[0].startswith("http"))
+
+    def test_javlibrary_cn(self):
+        base = JAVLibrary("cn")
 
         result = base.search("SDAB-187")
         self.assertTrue(len(result) > 0)
@@ -24,6 +63,9 @@ class SearchTests(unittest.TestCase):
         self.assertTrue("345SIMM-600" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
+        result = base.search("345SIMM")
+        self.assertTrue(len(result) > 5)
+
     def test_r18(self):
         base = R18()
 
@@ -35,19 +77,20 @@ class SearchTests(unittest.TestCase):
     def test_sod(self):
         base = SOD()
 
+        result = base.search("zzzzzzzz")
+        self.assertEqual(result, [])
+
         result = base.search("OKS-116")
         self.assertTrue(len(result) > 0)
         self.assertTrue("OKS-116" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
-    def test_10musume(self):
-        base = TenMusume()
-
-        result = base.search("maid")
-        self.assertTrue(len(result) > 0)
-        self.assertTrue(result[0].startswith("http"))
-
-        base.close()
+    # def test_10musume(self):
+    #     base = TenMusume()
+    #
+    #     result = base.search("maid")
+    #     self.assertTrue(len(result) > 0)
+    #     self.assertTrue(result[0].startswith("http"))
 
     def test_ideapocket(self):
         base = IdeaPocket()
@@ -66,7 +109,7 @@ class SearchTests(unittest.TestCase):
         self.assertEqual(result, [])
 
         result = base.search("溺れた白ビキニちゃんを助けたお礼に中出し恩返し")
-        self.assertTrue(len(result) > 0)
+        self.assertTrue(len(result) == 1)
         self.assertTrue("080621-001" in result[0])
 
     def test_caribbeancom_en(self):
@@ -88,6 +131,15 @@ class SearchTests(unittest.TestCase):
         result = base.search("White bikini woman did creampie gratitude for saved life from drown")
         self.assertTrue(len(result) > 0)
         self.assertTrue("080621-001" in result[0])
+
+    def test_s1(self):
+        base = S1()
+
+        result = base.search("aaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("sex")
+        self.assertTrue(len(result) > 0)
 
 
 if __name__ == '__main__':

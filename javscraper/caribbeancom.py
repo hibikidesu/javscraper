@@ -1,13 +1,14 @@
-from bs4 import BeautifulSoup
-from typing import List, Optional
-from datetime import datetime
-from urllib.parse import urljoin
-from .utils import *
+from abc import ABC
+from typing import Optional
 
 import re
+from urllib.parse import quote
+from .base import Base
+
+__all__ = ["Caribbeancom"]
 
 
-class Caribbeancom:
+class Caribbeancom(Base, ABC):
 
     def __init__(self, language: str = "ja"):
         """
@@ -16,104 +17,61 @@ class Caribbeancom:
         """
         self.language: str = language
         if language == "ja":
-            self.BASE = "https://www.caribbeancom.com"
+            base = "https://www.caribbeancom.com"
         elif language == "en":
-            self.BASE = "https://en.caribbeancom.com/eng"
+            base = "https://en.caribbeancom.com/eng"
         elif language == "cn":
-            self.BASE = "https://cn.caribbeancom.com"
+            base = "https://cn.caribbeancom.com"
         else:
             raise ValueError(f"Invalid language, {language}")
 
-    def search(self, query: str, **kwargs) -> List[str]:
-        """
-        Searches for videos with given query.
-        :param query: Search terms
-        :param kwargs: Extra params to specify
-        :return: List of found URLs
-        """
-        # Make request
-        result = perform_request(
-            "GET",
-            f"{self.BASE}/search/",
-            params={
-                "q": query.encode("euc-jp"),
-                **kwargs
-            }
-        )
+        super().__init__(base_url=base)
+        self._set_date_fmt("%Y/%m/%d")
+        self._set_fail_callback(self._fail_callback)
+        self._set_search_xpath("//div[@id='main']//*[contains(@class, '-title')]/a")
+        self._set_video_xpath({
+            "name": "//h1[@itemprop='name']",
+            "code": self._fix_code,
+            "studio": self._fix_studio,
+            "image": self._fix_image,
+            "actresses": "//a[@itemprop='actor']/span",
+            "genres": "//a[@itemprop='genre']",
+            "release_date": "//*[@itemprop='uploadDate']",
+            "description": "//p[@itemprop='description']",
+            "sample_video": self._fix_sample_video
+        })
 
-        # Check for errors
-        result.raise_for_status()
-
-        # Parse videos
-        out = []
-        soup = BeautifulSoup(result.content, "lxml")
-
-        for div in soup.find_all("div", {"itemtype": "http://schema.org/VideoObject"}):
-            out.append(urljoin(result.url, div.find("a")["href"]))
-
-        return out
-
-    def get_video(self, video: str) -> Optional[JAVResult]:
-        """
-        Returns data for a found jav
-        :param video: JAV code or URL
-        :return: JAV results
-        """
-        # Search for a URL if not given one
-        if self.BASE not in video:
-            video = video.lower().replace("_", "-").replace("caribbeancom-", "")
-            video = f"{self.BASE}/moviepages/{video}/index.html"
-
-        # Perform request
-        result = perform_request("GET", video)
-
-        # Error check
-        if result.status_code == 404:
-            return None
-
-        result.raise_for_status()
-
-        # Parse contents
-        code = re.search(r"moviepages/([0-9-]*)", video).group(1)
-        out = {"code": code, "studio": "Caribbeancom"}
-        soup = BeautifulSoup(result.content, "lxml")
-
-        # Title
-        out["name"] = soup.find("h1", {"itemprop": "name"}).text
-
-        # English videos don't give 404 but instead 200 with no data
-        if out["name"] == "":
-            return None
-
-        # Description
-        out["description"] = soup.find("p", {"itemprop": "description"}).text
-
-        # Image
-        out["image"] = f"{self.BASE}/moviepages/{code}/images/l_l.jpg"
-        out["sample_video"] = f"https://smovie.caribbeancom.com/sample/movies/{code}/480p.mp4"
-
-        # Parse table
-        if self.language == "cn":
-            table = soup.find("div", {"itemtype": "http://schema.org/VideoObject"})
-            for item in table.find_all("dl"):
-                name = item.find("dt").text
-                if name == "演员:":
-                    out["actresses"] = [x.find("span").text for x in item.find_all("a")]
-                elif name == "分类:":
-                    out["genres"] = [x.text for x in item.find_all("a")]
-                elif name == "发行日期:":
-                    value = item.find("dd").text
-                    out["release_date"] = datetime.strptime(value, "%Y/%m/%d")
+        if self.language == "ja":
+            self._set_encoding("euc-jp")
         else:
-            table = soup.find("ul", {"itemtype": "http://schema.org/VideoObject"})
-            for item in table.find_all("li"):
-                name = item.find("span", {"class": "spec-title"}).text
-                if name in ["出演", "Starring:"]:
-                    out["actresses"] = [x.find("span").text for x in item.find_all("a")]
-                elif name in ["タグ", "Tags:"]:
-                    out["genres"] = [x.text for x in item.find_all("a")]
-                elif name in ["配信日", "Release Date:"]:
-                    value = item.find("span", {"class": "spec-content"}).text
-                    out["release_date"] = datetime.strptime(value, "%Y/%m/%d")
+            self._set_encoding("utf-8")
 
-        return JAVResult(**out)
+    def _build_search_path(self, query: str) -> str:
+        return f"/search/q={quote(query.encode('euc-jp'))}"
+
+    def _build_video_path(self, query: str) -> Optional[str]:
+        query = query.lower().replace("_", "-").replace("caribbeancom-", "")
+        return f"{self.PARAMS['base_url']}/moviepages/{query}/index.html"
+
+    @staticmethod
+    def _fail_callback(result):
+        if b"<title>  - Caribbeancom.com</title>\n" in result.content:
+            raise ValueError()
+
+    @staticmethod
+    def _fix_code(url: str, tree) -> str:
+        return re.search(r"moviepages/([0-9-]*)", url).group(1)
+
+    @staticmethod
+    def _fix_studio(url: str, tree) -> str:
+        return "Caribbeancom"
+
+    @staticmethod
+    def _fix_image(url: str, tree) -> str:
+        code = Caribbeancom._fix_code(url, tree)
+        return f"https://www.caribbeancom.com/moviepages/{code}/images/l_l.jpg"
+
+    @staticmethod
+    def _fix_sample_video(url: str, tree) -> str:
+        code = Caribbeancom._fix_code(url, tree)
+        return f"https://smovie.caribbeancom.com/sample/movies/{code}/480p.mp4"

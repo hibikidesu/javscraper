@@ -1,107 +1,55 @@
-from bs4 import BeautifulSoup
-from typing import List, Optional
-from datetime import datetime
-from urllib.parse import urljoin
-from .utils import *
+from abc import ABC
+from typing import Optional
+
+from urllib.parse import quote
+from .base import Base
 
 import requests
 
 __all__ = ["SOD"]
 
 
-class SOD:
-    BASE = "https://ec.sod.co.jp"
+class SOD(Base, ABC):
 
-    def search(self, query: str, **kwargs) -> List[str]:
-        """
-        Searches for videos with given query.
-        :param query: Search terms
-        :param kwargs: Extra params to specify
-        :return: List of found URLs
-        """
-        # Perform request
-        result = self.make_request(
-            f"{self.BASE}/prime/videos/genre/?search_type=1&sodsearch={query}"
-        )
-        result.raise_for_status()
+    def __init__(self):
+        super().__init__(base_url="https://ec.sod.co.jp")
+        self._set_date_fmt("%Y年 %m月 %d日")
+        self._set_fail_callback(self._fail_callback)
+        self._set_allow_redirects(True)
+        self._set_search_xpath("//div[@class='videis_s_txt']//a")
+        self._set_video_xpath({
+            "name": "//div[@id='videos_head']/h1",
+            "code": "//table[@id='v_introduction']/tr[contains(td, '品番')]/td[@class='v_intr_tx']",
+            "studio": "//table[@id='v_introduction']/tr[contains(td, 'メーカー')]/td[@class='v_intr_tx']",
+            "image": self._fix_image,
+            "actresses": "//table[@id='v_introduction']/tr[contains(td, '出演者')]/td[@class='v_intr_tx']//a",
+            "genres": "//table[@id='v_introduction']/tr[contains(td, 'ジャンル')]/td[@class='v_intr_tx']//a",
+            "release_date": "//table[@id='v_introduction']/tr[contains(td, '発売年月日')]"
+                            "/td[@class='v_intr_tx']",
+            "description": "//article"
+        })
 
-        # Parse data
-        out = []
-        soup = BeautifulSoup(result.content, "lxml")
+    def _build_search_path(self, query: str) -> str:
+        self._set_headers({
+            "Referer": f"{self.PARAMS['base_url']}/prime/videos/genre/"
+                       f"?search_type=1&sodsearch={quote(query)}"
+        })
+        return "/prime/_ontime.php"
 
-        videos = soup.find_all("div", {"class": "videis_s_txt"})
-        for video in videos:
-            out.append(urljoin(result.url, video.find("a")["href"]))
-
-        return out
-
-    def get_video(self, code: str) -> Optional[JAVResult]:
-        """
-        Returns data for a found jav
-        :param code: JAV code for SOD videos
-        :return: JAV results
-        """
-        # Perform request
-        result = self.make_request(
-            f"{self.BASE}/prime/videos/?id={code}"
-        )
-        result.raise_for_status()
-
-        if code not in result.url:
-            return None
-
-        out = {}
-        soup = BeautifulSoup(result.content, "lxml")
-
-        # Get the title from the last h1 found
-        title = soup.find_all("h1")
-        if title:
-            out["name"] = title[-1:][0].text.strip()
-
-        # Get the description
-        description = soup.find("article")
-        if description:
-            out["description"] = description.text.strip()
-
-        # Parse common
-        table = soup.find("table")
-        for item in table.find_all("tr"):
-            name = item.find("td", {"class": "v_intr_ti"}).text
-            if name == "品番":
-                value = item.find("td", {"class": "v_intr_tx"})
-                out["code"] = value.text
-            elif name == "発売年月日":
-                value = item.find("td", {"class": "v_intr_tx"})
-                out["release_date"] = datetime.strptime(value.text, "%Y年 %m月 %d日")
-            elif name == "出演者":
-                out["actresses"] = []
-                for actress in item.find_all("a"):
-                    out["actresses"].append(actress.text)
-            elif name == "メーカー":
-                value = item.find("td", {"class": "v_intr_tx"})
-                out["studio"] = value.text
-            elif name == "ジャンル":
-                out["genres"] = []
-                for genre in item.find_all("a"):
-                    out["genres"].append(genre.text)
-
-        # Get the image
-        out["image"] = soup.find("div", {"class": "videos_samimg"}).find("a")["href"]
-
-        return JAVResult(**out)
+    def _build_video_path(self, query: str) -> Optional[str]:
+        self._set_headers({
+            "Referer": f"{self.PARAMS['base_url']}/prime/videos/?id={quote(query)}"
+        })
+        return "https://ec.sod.co.jp/prime/_ontime.php"
 
     @staticmethod
-    def make_request(url: str) -> requests.Response:
-        """
-        Makes a request to bypass the age check redirect
-        :param url: Url to request
-        :return:
-        """
-        return perform_request(
-            "GET",
-            "https://ec.sod.co.jp/prime/_ontime.php",
-            headers={"Referer": url}
-        )
+    def _fail_callback(result):
+        if result.url == "https://ec.sod.co.jp/prime/":
+            raise ValueError()
+
+    @staticmethod
+    def _fix_image(url: str, tree) -> str:
+        return tree.xpath("//div[@class='videos_samimg']/a")[0].get("href")
 
     @staticmethod
     def download_image(url: str) -> requests.Response:

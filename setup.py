@@ -3,16 +3,14 @@ from setuptools import setup
 # Requirements
 requirements = [
     "requests>=2.26.0",
-    "beautifulsoup4>=4.9.3",
     "lxml>=4.6.3",
-    "cloudscraper>=1.2.58",
-    "selenium>=3.141.0"
+    "cloudscraper>=1.2.58"
 ]
 
 
 setup(
     name="javscraper",
-    version="1.0.4",
+    version="1.1.0",
     description="Python library used to help scrape JAV sites.",
     url="https://github.com/hibikidesu/javscraper",
     author="Hibiki",

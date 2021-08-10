@@ -3,7 +3,7 @@ from javscraper import *
 
 
 class VideoTests(unittest.TestCase):
-    def test_javlibrary(self):
+    def test_javlibrary_en(self):
         base = JAVLibrary()
 
         result = base.get_video("abcdefghijklm")
@@ -15,6 +15,51 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.studio, "SOD Create")
         self.assertTrue(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "Kamon Non")
+        self.assertIsNone(result.sample_video)
+        self.assertTrue(result.image.startswith("http"))
+
+    def test_javlibrary_ja(self):
+        base = JAVLibrary("ja")
+
+        result = base.get_video("abcdefghijklm")
+        self.assertIsNone(result)
+
+        result = base.get_video("SDAB-187")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "SDAB-187")
+        self.assertEqual(result.studio, "SODクリエイト")
+        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "花門のん")
+        self.assertIsNone(result.sample_video)
+        self.assertTrue(result.image.startswith("http"))
+
+    def test_javlibrary_tw(self):
+        base = JAVLibrary("tw")
+
+        result = base.get_video("abcdefghijklm")
+        self.assertIsNone(result)
+
+        result = base.get_video("SDAB-187")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "SDAB-187")
+        self.assertEqual(result.studio, "SOD Create")
+        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "花門のん")
+        self.assertIsNone(result.sample_video)
+        self.assertTrue(result.image.startswith("http"))
+
+    def test_javlibrary_cn(self):
+        base = JAVLibrary("cn")
+
+        result = base.get_video("abcdefghijklm")
+        self.assertIsNone(result)
+
+        result = base.get_video("SDAB-187")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "SDAB-187")
+        self.assertEqual(result.studio, "SOD Create")
+        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "花門のん")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
 
@@ -49,7 +94,7 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "Shoko Takahashi")
         self.assertIsNotNone(result.sample_video)
-        self.assertIsNotNone(result.description)
+        self.assertIsNone(result.description)
         self.assertTrue(result.sample_video.startswith("http"))
 
     def test_s1(self):
@@ -60,7 +105,7 @@ class VideoTests(unittest.TestCase):
 
         result = base.get_video("SSIS-140")
         self.assertIsNotNone(result)
-        self.assertEqual(result.code, "SSIS140")
+        self.assertEqual(result.code, "SSIS-140")
         self.assertTrue(result.image.startswith("https"))
         self.assertTrue(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "藤田こずえ")
@@ -100,7 +145,7 @@ class VideoTests(unittest.TestCase):
         self.assertIsNotNone(result.description)
         self.assertIsNone(result.sample_video)
 
-        base = TenMusume(english=True, driver=base.driver)
+        base = TenMusume(english=True)
         result = base.get_video("080521_01")
         self.assertIsNotNone(result)
         self.assertEqual(result.code, "080521_01")
@@ -108,10 +153,8 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.image.startswith("https"))
         self.assertTrue(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "Shouko Takeda")
-        self.assertIsNone(result.description)
+        self.assertEqual(result.description, "")
         self.assertIsNone(result.sample_video)
-
-        base.close()
 
     def test_ideapocket(self):
         base = IdeaPocket()
