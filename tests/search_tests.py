@@ -189,6 +189,17 @@ class SearchTests(unittest.TestCase):
         self.assertTrue(result[0].startswith("http"))
         self.assertTrue("d82ab7c815ac7ad271a23fa4182797eb" in result[0])
 
+    def test_aroma(self):
+        base = Aroma()
+
+        result = base.search("aaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("sex")
+        self.assertTrue(len(result) == 16)
+        self.assertTrue(result[0].startswith("http"))
+        self.assertTrue("arm863" in result[0])
+
 
 if __name__ == '__main__':
     unittest.main()

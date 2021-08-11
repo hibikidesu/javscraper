@@ -300,6 +300,23 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.actresses[0], "前乃菜々")
         self.assertIsNotNone(result.description)
 
+    def test_aroma(self):
+        base = Aroma()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("ARM-999")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "ARM-999")
+        self.assertEqual(result.studio, "Aroma Kikaku")
+        self.assertTrue(result.image.startswith("http"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("http"))
+        self.assertTrue(len(result.actresses), 5)
+        self.assertTrue(result.actresses[0], "あおいれな")
+        self.assertIsNotNone(result.description)
+
 
 if __name__ == '__main__':
     unittest.main()
