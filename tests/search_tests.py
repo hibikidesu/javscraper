@@ -178,6 +178,17 @@ class SearchTests(unittest.TestCase):
         self.assertTrue(result[0].startswith("http"))
         self.assertTrue("/detail/ome401/" in result[0])
 
+    def test_alicejapan(self):
+        base = AliceJapan()
+
+        result = base.search("aaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("DVAJ-528")
+        self.assertTrue(len(result) == 2)
+        self.assertTrue(result[0].startswith("http"))
+        self.assertTrue("d82ab7c815ac7ad271a23fa4182797eb" in result[0])
+
 
 if __name__ == '__main__':
     unittest.main()

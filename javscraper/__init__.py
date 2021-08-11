@@ -1,4 +1,5 @@
 from .aircontrol import AirControl
+from .alicejapan import AliceJapan
 from .caribbeancom import Caribbeancom
 from .ideapocket import IdeaPocket
 from .javlibrary import JAVLibrary
