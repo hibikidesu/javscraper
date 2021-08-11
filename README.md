@@ -6,6 +6,7 @@ Scraper library for JAVs.
 - IdeaPocket
 - JAVLibrary
 - KMProduce
+- Max-A
 - MGStage
 - R18
 - S1

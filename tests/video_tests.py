@@ -252,6 +252,22 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.release_date.year, 2017)
         self.assertEqual(result.release_date.month, 4)
 
+    def test_max_a(self):
+        base = MaxA()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("XVSR-604")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "XVSR-604")
+        self.assertEqual(result.studio, "MAX-A")
+        self.assertTrue(result.image.startswith("https"))
+        self.assertIsNone(result.sample_video)
+        self.assertTrue(len(result.actresses), 1)
+        self.assertTrue(result.actresses[0], "最上一花/佐藤花")
+        self.assertIsNotNone(result.description)
+
 
 if __name__ == '__main__':
     unittest.main()
