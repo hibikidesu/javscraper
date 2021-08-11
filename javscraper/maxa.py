@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import Optional
 
-from urllib.parse import quote, urljoin
+from urllib.parse import quote
 from .base import Base
 
 __all__ = ["MaxA"]
@@ -12,7 +12,6 @@ class MaxA(Base, ABC):
     def __init__(self):
         super().__init__(base_url="https://www.max-a.co.jp")
         self._set_date_fmt("%Y年%m月%d日")
-        self._set_cookies({"modal": "off"})
         self._set_search_xpath("//dd[contains(@class, 'description')]/ul/li[1]/a")
         self._set_video_xpath({
             "name": "//div[@class='columnHeading']/h2",
@@ -29,7 +28,7 @@ class MaxA(Base, ABC):
         return f"/search_item.php" \
                f"?search=t" \
                f"&word_type=download_only" \
-               f"&word={query}"
+               f"&word={quote(query)}"
 
     def _build_video_path(self, query: str) -> Optional[str]:
         video_url = self.search(query)

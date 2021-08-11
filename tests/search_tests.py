@@ -167,6 +167,17 @@ class SearchTests(unittest.TestCase):
         self.assertTrue(result[0].startswith("http"))
         self.assertTrue("c71b1ae644015b8651a9edac601b2768" in result[0])
 
+    def test_air_control(self):
+        base = AirControl()
+
+        result = base.search("aaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("ome-401")
+        self.assertTrue(len(result) == 1)
+        self.assertTrue(result[0].startswith("http"))
+        self.assertTrue("/detail/ome401/" in result[0])
+
 
 if __name__ == '__main__':
     unittest.main()

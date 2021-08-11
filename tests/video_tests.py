@@ -267,6 +267,23 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.actresses[0], "最上一花/佐藤花")
         self.assertIsNotNone(result.description)
 
+    def test_aircontrol(self):
+        base = AirControl()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("ome-401")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "OME-401")
+        self.assertEqual(result.studio, "Air Control")
+        self.assertTrue(result.image.startswith("https"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("https"))
+        self.assertTrue(len(result.actresses), 1)
+        self.assertTrue(result.actresses[0], "清瀬汐希")
+        self.assertIsNotNone(result.description)
+
 
 if __name__ == '__main__':
     unittest.main()
