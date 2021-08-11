@@ -222,6 +222,17 @@ class SearchTests(unittest.TestCase):
         result = base.search("aaaaaaaaa")
         self.assertEqual(result, [])
 
+    def test_befree(self):
+        base = BeFree()
+
+        result = base.search("aaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("BF-640")
+        self.assertTrue(len(result) == 1)
+        self.assertTrue(result[0].startswith("http"))
+        self.assertTrue("bf640" in result[0])
+
 
 if __name__ == '__main__':
     unittest.main()

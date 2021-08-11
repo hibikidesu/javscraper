@@ -350,6 +350,23 @@ class VideoTests(unittest.TestCase):
         result = base.get_video("zzzzzzzzz")
         self.assertIsNone(result)
 
+    def test_befree(self):
+        base = BeFree()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("BF-640")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "BF-640")
+        self.assertEqual(result.studio, "BeFree")
+        self.assertTrue(result.image.startswith("http"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("http"))
+        self.assertTrue(len(result.actresses), 1)
+        self.assertTrue(result.actresses[0], "二宮ひかり")
+        self.assertIsNotNone(result.description)
+
 
 if __name__ == '__main__':
     unittest.main()
