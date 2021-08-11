@@ -333,6 +333,23 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.actresses[0], "二宮ひかり")
         self.assertIsNotNone(result.description)
 
+    def test_auroraproject(self):
+        base = AuroraProject()
+
+        result = base.get_video("APKH-185")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "APKH-185")
+        self.assertEqual(result.studio, "Aurora Project Annex")
+        self.assertTrue(result.image.startswith("http"))
+        self.assertEqual(result.sample_video, None)
+        self.assertTrue(len(result.actresses), 1)
+        self.assertTrue(result.actresses[0], "香椎みすず")
+        self.assertIsNotNone(result.description)
+        self.assertEqual(len(result.genres), 12)
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
 
 if __name__ == '__main__':
     unittest.main()

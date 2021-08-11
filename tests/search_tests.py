@@ -211,6 +211,17 @@ class SearchTests(unittest.TestCase):
         self.assertTrue(result[0].startswith("http"))
         self.assertTrue("adn330" in result[0])
 
+    def test_auroraproject(self):
+        base = AuroraProject()
+
+        result = base.search("APKH-185")
+        self.assertTrue(len(result) == 1)
+        self.assertTrue(result[0].startswith("http"))
+        self.assertTrue("APKH-185" in result[0])
+
+        result = base.search("aaaaaaaaa")
+        self.assertEqual(result, [])
+
 
 if __name__ == '__main__':
     unittest.main()

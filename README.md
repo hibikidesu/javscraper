@@ -6,6 +6,7 @@ Scraper library for JAVs.
 - AliceJapan
 - Aroma
 - Attackers
+- Aurora Project
 - Caribbeancom
 - IdeaPocket
 - JAVLibrary

@@ -1,8 +1,6 @@
 from abc import ABC
 from typing import Optional
 
-import re
-from datetime import datetime
 from urllib.parse import quote, urljoin
 from .base import Base
 from .utils import fix_jav_code
