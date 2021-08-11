@@ -1,9 +1,8 @@
 from abc import ABC
 from typing import Optional
 
-from urllib.parse import quote, urljoin
+from urllib.parse import quote
 from .base import Base
-from .utils import fix_jav_code
 
 __all__ = ["AliceJapan"]
 
@@ -41,11 +40,4 @@ class AliceJapan(Base, ABC):
 
     @staticmethod
     def _fix_image(url: str, tree) -> str:
-        return urljoin(url, tree.xpath("//a[@class='zoom']")[0].get("href"))
-
-    @staticmethod
-    def _fix_sample_video(url: str, tree) -> Optional[str]:
-        video = tree.xpath("//video")
-        if not video:
-            return None
-        return video[0].get("src")
+        return tree.xpath("//a[@class='zoom']")[0].get("href")
