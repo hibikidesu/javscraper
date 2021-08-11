@@ -2,7 +2,6 @@ from abc import ABC
 from typing import Optional
 
 import re
-from lxml import etree
 from datetime import datetime
 from urllib.parse import quote, urljoin
 from .base import Base
@@ -49,9 +48,3 @@ class Attackers(Base, ABC):
     @staticmethod
     def _fix_image(url: str, tree) -> str:
         return urljoin(url, tree.xpath("//figure[1]/a")[0].get("href"))
-
-    @staticmethod
-    def _fix_release_date(url: str, tree) -> datetime:
-        date = tree.xpath("//dl[@class='lst-works-data' and contains(dt, '発売日')]/dd//a")[0].get("href")
-        date = re.search(r"/([0-9]*)/", date).group(1)
-        return datetime.strptime(date, "%Y%m%d")
