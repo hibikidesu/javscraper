@@ -13,7 +13,7 @@ class VideoTests(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertEqual(result.code, "SDAB-187")
         self.assertEqual(result.studio, "SOD Create")
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "Kamon Non")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
@@ -28,7 +28,7 @@ class VideoTests(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertEqual(result.code, "SDAB-187")
         self.assertEqual(result.studio, "SODクリエイト")
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "花門のん")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
@@ -43,7 +43,7 @@ class VideoTests(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertEqual(result.code, "SDAB-187")
         self.assertEqual(result.studio, "SOD Create")
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "花門のん")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
@@ -58,7 +58,7 @@ class VideoTests(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertEqual(result.code, "SDAB-187")
         self.assertEqual(result.studio, "SOD Create")
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "花門のん")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
@@ -74,7 +74,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.code, "345SIMM-600")
         self.assertEqual(result.studio, "しろうとまんまん")
         self.assertTrue(result.image.startswith("http"))
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "りなちゃん")
         self.assertIsNotNone(result.sample_video)
         self.assertIsNotNone(result.description)
@@ -91,7 +91,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.code, "MIDE-805")
         self.assertEqual(result.studio, "MOODYZ")
         self.assertTrue(result.image.startswith("https"))
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "Shoko Takahashi")
         self.assertIsNotNone(result.sample_video)
         self.assertIsNone(result.description)
@@ -107,7 +107,7 @@ class VideoTests(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertEqual(result.code, "SSIS-140")
         self.assertTrue(result.image.startswith("https"))
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "藤田こずえ")
         self.assertIsNotNone(result.sample_video)
         self.assertIsNotNone(result.description)
@@ -124,7 +124,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.code, "OKS-116")
         self.assertEqual(result.studio, "親父の個撮")
         self.assertTrue(result.image.startswith("https"))
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "宮崎リン")
         self.assertIsNotNone(result.description)
         self.assertIsNone(result.sample_video)
@@ -140,7 +140,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.code, "080521_01")
         self.assertEqual(result.studio, "10musume")
         self.assertTrue(result.image.startswith("https"))
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "竹田しょうこ")
         self.assertIsNotNone(result.description)
         self.assertIsNone(result.sample_video)
@@ -151,7 +151,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.code, "080521_01")
         self.assertEqual(result.studio, "10musume")
         self.assertTrue(result.image.startswith("https"))
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "Shouko Takeda")
         self.assertEqual(result.description, "")
         self.assertIsNone(result.sample_video)
@@ -167,7 +167,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.code, "IPX-445")
         self.assertEqual(result.studio, "IdeaPocket")
         self.assertTrue(result.image.startswith("https"))
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "希島あいり")
         self.assertIsNotNone(result.description)
         self.assertIsNotNone(result.sample_video)
@@ -185,7 +185,7 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.image.startswith("https"))
         self.assertIsNotNone(result.sample_video)
         self.assertTrue(result.sample_video.startswith("https"))
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "輝月あんり")
         self.assertIsNotNone(result.description)
 
@@ -202,7 +202,7 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.image.startswith("https"))
         self.assertIsNotNone(result.sample_video)
         self.assertTrue(result.sample_video.startswith("https"))
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "Anri Kizuki")
         self.assertIsNotNone(result.description)
 
@@ -219,7 +219,7 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.image.startswith("https"))
         self.assertIsNotNone(result.sample_video)
         self.assertTrue(result.sample_video.startswith("https"))
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "Anri Kizuki")
         self.assertIsNotNone(result.description)
 
@@ -245,7 +245,7 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.image.startswith("https"))
         self.assertIsNotNone(result.sample_video)
         self.assertTrue(result.sample_video.startswith("https"))
-        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "素人モニター13人")
         self.assertIsNotNone(result.description)
         self.assertEqual(result.release_date.year, 2017)
@@ -263,8 +263,8 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.studio, "MAX-A")
         self.assertTrue(result.image.startswith("https"))
         self.assertIsNone(result.sample_video)
-        self.assertTrue(len(result.actresses), 1)
-        self.assertTrue(result.actresses[0], "最上一花/佐藤花")
+        self.assertEqual(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "最上一花/佐藤花")
         self.assertIsNotNone(result.description)
 
     def test_aircontrol(self):
@@ -280,8 +280,8 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.image.startswith("https"))
         self.assertIsNotNone(result.sample_video)
         self.assertTrue(result.sample_video.startswith("https"))
-        self.assertTrue(len(result.actresses), 1)
-        self.assertTrue(result.actresses[0], "清瀬汐希")
+        self.assertEqual(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "清瀬汐希")
         self.assertIsNotNone(result.description)
 
     def test_alicejapan(self):
@@ -296,8 +296,8 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.studio, "Alice Japan")
         self.assertTrue(result.image.startswith("http"))
         self.assertIsNone(result.sample_video)
-        self.assertTrue(len(result.actresses), 1)
-        self.assertTrue(result.actresses[0], "前乃菜々")
+        self.assertEqual(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "前乃菜々")
         self.assertIsNotNone(result.description)
 
     def test_aroma(self):
@@ -313,8 +313,8 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.image.startswith("http"))
         self.assertIsNotNone(result.sample_video)
         self.assertTrue(result.sample_video.startswith("http"))
-        self.assertTrue(len(result.actresses), 5)
-        self.assertTrue(result.actresses[0], "あおいれな")
+        self.assertEqual(len(result.actresses), 5)
+        self.assertEqual(result.actresses[0], "あおいれな")
         self.assertIsNotNone(result.description)
 
     def test_attackers(self):
@@ -329,8 +329,8 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.studio, "Attackers")
         self.assertTrue(result.image.startswith("http"))
         self.assertIsNone(result.sample_video)
-        self.assertTrue(len(result.actresses), 1)
-        self.assertTrue(result.actresses[0], "二宮ひかり")
+        self.assertEqual(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "二宮ひかり")
         self.assertIsNotNone(result.description)
 
     def test_auroraproject(self):
@@ -342,8 +342,8 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.studio, "Aurora Project Annex")
         self.assertTrue(result.image.startswith("http"))
         self.assertEqual(result.sample_video, None)
-        self.assertTrue(len(result.actresses), 1)
-        self.assertTrue(result.actresses[0], "香椎みすず")
+        self.assertEqual(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "香椎みすず")
         self.assertIsNotNone(result.description)
         self.assertEqual(len(result.genres), 12)
 
@@ -363,8 +363,8 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.image.startswith("http"))
         self.assertIsNotNone(result.sample_video)
         self.assertTrue(result.sample_video.startswith("http"))
-        self.assertTrue(len(result.actresses), 1)
-        self.assertTrue(result.actresses[0], "二宮ひかり")
+        self.assertEqual(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "朝倉ここな")
         self.assertIsNotNone(result.description)
 
     def test_bi(self):
@@ -380,8 +380,8 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.image.startswith("http"))
         self.assertIsNotNone(result.sample_video)
         self.assertTrue(result.sample_video.startswith("http"))
-        self.assertTrue(len(result.actresses), 3)
-        self.assertTrue(result.actresses[0], "初川みなみ")
+        self.assertEqual(len(result.actresses), 3)
+        self.assertEqual(result.actresses[0], "初川みなみ")
         self.assertIsNotNone(result.description)
 
     def test_bigmorkal(self):
@@ -396,9 +396,25 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.studio, "BIGMORKAL")
         self.assertTrue(result.image.startswith("http"))
         self.assertIsNone(result.sample_video)
-        self.assertTrue(len(result.actresses), 1)
-        self.assertTrue(result.actresses[0], "イチャラブエッチなオンナたち22人")
+        self.assertEqual(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "イチャラブエッチなオンナたち22人")
         self.assertIsNotNone(result.description)
+
+    def test_deeps(self):
+        base = Deeps()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("DVDMS-699")
+
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "DVDMS-699")
+        self.assertEqual(result.studio, "Deeps")
+        self.assertTrue(result.image.startswith("http"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("http"))
+        self.assertIsNone(result.description)
 
 
 if __name__ == '__main__':

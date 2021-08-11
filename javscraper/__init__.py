@@ -7,6 +7,7 @@ from .befree import BeFree
 from .bi import Bi
 from .bigmorkal import BigMorkal
 from .caribbeancom import Caribbeancom
+from .deeps import Deeps
 from .ideapocket import IdeaPocket
 from .javlibrary import JAVLibrary
 from .kmproduce import KMProduce

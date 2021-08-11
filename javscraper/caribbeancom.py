@@ -34,7 +34,7 @@ class Caribbeancom(Base, ABC):
             "code": self._fix_code,
             "studio": self._fix_studio,
             "image": self._fix_image,
-            "actresses": "//a[@itemprop='actor']/span",
+            "actresses": "//div[contains(@class, 'movie-info')]//a[@itemprop='actor']/span",
             "genres": "//a[@itemprop='genre']",
             "release_date": "//*[@itemprop='uploadDate']",
             "description": "//p[@itemprop='description']",
