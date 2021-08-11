@@ -234,7 +234,7 @@ class SearchTests(unittest.TestCase):
         self.assertTrue("bf640" in result[0])
 
     def test_bi(self):
-        base = BeFree()
+        base = Bi()
 
         result = base.search("aaaaaaaaa")
         self.assertEqual(result, [])
