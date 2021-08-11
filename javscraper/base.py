@@ -124,7 +124,6 @@ class Base:
         """
         Searches for videos with given query.
         :param query: Search terms
-        :param kwargs: Extra params to specify
         :return: List of found URLs
         """
         # Build URL

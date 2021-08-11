@@ -1,9 +1,7 @@
 from typing import List, Optional
 from datetime import datetime
-from urllib.parse import urljoin, urlencode
 from .utils import *
 
-import time
 import re
 
 __all__ = ["TenMusume"]
@@ -19,7 +17,6 @@ class TenMusume:
         """
         Searches for videos with given query.
         :param query: Search terms
-        :param kwargs: Extra params to specify
         :return: List of found URLs
         """
         raise NotImplementedError()

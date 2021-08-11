@@ -111,6 +111,7 @@ class SearchTests(unittest.TestCase):
         result = base.search("溺れた白ビキニちゃんを助けたお礼に中出し恩返し")
         self.assertTrue(len(result) == 1)
         self.assertTrue("080621-001" in result[0])
+        self.assertTrue(result[0].startswith("http"))
 
     def test_caribbeancom_en(self):
         base = Caribbeancom("en")
@@ -121,6 +122,7 @@ class SearchTests(unittest.TestCase):
         result = base.search("White bikini woman did creampie gratitude for saved life from drown")
         self.assertTrue(len(result) > 0)
         self.assertTrue("080621-001" in result[0])
+        self.assertTrue(result[0].startswith("http"))
 
     def test_caribbeancom_cn(self):
         base = Caribbeancom("cn")
@@ -131,6 +133,7 @@ class SearchTests(unittest.TestCase):
         result = base.search("White bikini woman did creampie gratitude for saved life from drown")
         self.assertTrue(len(result) > 0)
         self.assertTrue("080621-001" in result[0])
+        self.assertTrue(result[0].startswith("http"))
 
     def test_s1(self):
         base = S1()
@@ -140,6 +143,18 @@ class SearchTests(unittest.TestCase):
 
         result = base.search("sex")
         self.assertTrue(len(result) > 0)
+        self.assertTrue(result[0].startswith("http"))
+
+    def test_kmproduce(self):
+        base = KMProduce()
+
+        result = base.search("aaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("bazx-304")
+        self.assertTrue(len(result) == 1)
+        self.assertTrue(result[0].startswith("http"))
+        self.assertTrue("works/bazx-304" in result[0])
 
 
 if __name__ == '__main__':

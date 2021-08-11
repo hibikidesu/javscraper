@@ -2,17 +2,18 @@
 Scraper library for JAVs.
 
 ## Supported Sites
-- R18
+- Caribbeancom
+- IdeaPocket
 - JAVLibrary
+- KMProduce
 - MGStage
+- R18
 - S1
 - SOD Prime
 - 10Musume
-- IdeaPocket
-- Caribbeancom
 
 ## Requirements
-- python3.4+
+- python3.7+
 
 ## Installation
 ```commandline

@@ -223,6 +223,35 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "Anri Kizuki")
         self.assertIsNotNone(result.description)
 
+    def test_kmproduce(self):
+        base = KMProduce()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("BAZX-304")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "BAZX-304")
+        self.assertEqual(result.studio, "K.M.Produce")
+        self.assertTrue(result.image.startswith("https"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("https"))
+        self.assertTrue(len(result.actresses), 0)
+        self.assertIsNotNone(result.description)
+
+        result = base.get_video("okax-206")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "okax-206")
+        self.assertEqual(result.studio, "K.M.Produce")
+        self.assertTrue(result.image.startswith("https"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("https"))
+        self.assertTrue(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "素人モニター13人")
+        self.assertIsNotNone(result.description)
+        self.assertEqual(result.release_date.year, 2017)
+        self.assertEqual(result.release_date.month, 4)
+
 
 if __name__ == '__main__':
     unittest.main()

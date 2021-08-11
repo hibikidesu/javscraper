@@ -4,14 +4,16 @@ from typing import List, Optional
 from dataclasses import dataclass
 from datetime import datetime
 
-__all__ = ["SCRAPER", "JAVResult", "perform_request", "fix_jav_code"]
+__all__ = ["SCRAPER", "JAVResult", "perform_request", "fix_jav_code", "USER_AGENT"]
+
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) " \
+             "Chrome/85.0.4183.121 Safari/537.36"
 
 # Global scraper without needing to make a new instance per request
 SCRAPER = cloudscraper.create_scraper(
     # Make sure mobile pages are not served
     browser={
-        "custom": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/85.0.4183.121 Safari/537.36"
+        "custom": USER_AGENT
     }
 )
 

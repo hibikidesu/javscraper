@@ -1,3 +1,4 @@
 requests>=2.26.0
 lxml>=4.6.3
 cloudscraper>=1.2.58
+setuptools>=57.4.0
