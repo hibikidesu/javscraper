@@ -317,6 +317,22 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.actresses[0], "あおいれな")
         self.assertIsNotNone(result.description)
 
+    def test_attackers(self):
+        base = Attackers()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("ADN-330")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "ADN-330")
+        self.assertEqual(result.studio, "Attackers")
+        self.assertTrue(result.image.startswith("http"))
+        self.assertIsNone(result.sample_video)
+        self.assertTrue(len(result.actresses), 1)
+        self.assertTrue(result.actresses[0], "二宮ひかり")
+        self.assertIsNotNone(result.description)
+
 
 if __name__ == '__main__':
     unittest.main()

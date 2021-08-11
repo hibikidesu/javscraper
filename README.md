@@ -4,6 +4,8 @@ Scraper library for JAVs.
 ## Supported Sites
 - AirControl
 - AliceJapan
+- Aroma
+- Attackers
 - Caribbeancom
 - IdeaPocket
 - JAVLibrary
