@@ -367,6 +367,23 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.actresses[0], "二宮ひかり")
         self.assertIsNotNone(result.description)
 
+    def test_bi(self):
+        base = Bi()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("CJOD-307")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "CJOD-307")
+        self.assertEqual(result.studio, "Bi")
+        self.assertTrue(result.image.startswith("http"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("http"))
+        self.assertTrue(len(result.actresses), 3)
+        self.assertTrue(result.actresses[0], "初川みなみ")
+        self.assertIsNotNone(result.description)
+
 
 if __name__ == '__main__':
     unittest.main()

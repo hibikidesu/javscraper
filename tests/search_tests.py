@@ -233,6 +233,17 @@ class SearchTests(unittest.TestCase):
         self.assertTrue(result[0].startswith("http"))
         self.assertTrue("bf640" in result[0])
 
+    def test_bi(self):
+        base = BeFree()
+
+        result = base.search("aaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("CJOD-307")
+        self.assertTrue(len(result) == 1)
+        self.assertTrue(result[0].startswith("http"))
+        self.assertTrue("cjod307" in result[0])
+
 
 if __name__ == '__main__':
     unittest.main()

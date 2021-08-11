@@ -4,6 +4,7 @@ from .aroma import Aroma
 from .attackers import Attackers
 from .auroraproject import AuroraProject
 from .befree import BeFree
+from .bi import Bi
 from .caribbeancom import Caribbeancom
 from .ideapocket import IdeaPocket
 from .javlibrary import JAVLibrary
