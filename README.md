@@ -9,6 +9,7 @@ Scraper library for JAVs.
 - Aurora Project
 - BeFree
 - Bi
+- Big Morkal
 - Caribbeancom
 - IdeaPocket
 - JAVLibrary

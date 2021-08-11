@@ -244,6 +244,17 @@ class SearchTests(unittest.TestCase):
         self.assertTrue(result[0].startswith("http"))
         self.assertTrue("cjod307" in result[0])
 
+    def test_bigmorkal(self):
+        base = BigMorkal()
+
+        result = base.search("aaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("BDSR-459")
+        self.assertTrue(len(result) == 1)
+        self.assertTrue(result[0].startswith("http"))
+        self.assertTrue("bdsr-459" in result[0])
+
 
 if __name__ == '__main__':
     unittest.main()

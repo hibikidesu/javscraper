@@ -384,6 +384,22 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.actresses[0], "初川みなみ")
         self.assertIsNotNone(result.description)
 
+    def test_bigmorkal(self):
+        base = BigMorkal()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("BDSR-459")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "BDSR-459")
+        self.assertEqual(result.studio, "BIGMORKAL")
+        self.assertTrue(result.image.startswith("http"))
+        self.assertIsNone(result.sample_video)
+        self.assertTrue(len(result.actresses), 1)
+        self.assertTrue(result.actresses[0], "イチャラブエッチなオンナたち22人")
+        self.assertIsNotNone(result.description)
+
 
 if __name__ == '__main__':
     unittest.main()
