@@ -4,7 +4,7 @@ from typing import List, Optional
 from dataclasses import dataclass
 from datetime import datetime
 
-__all__ = ["SCRAPER", "JAVResult", "perform_request", "fix_jav_code", "USER_AGENT"]
+__all__ = ["SCRAPER", "JAVResult", "perform_request", "fix_jav_code", "USER_AGENT", "jav_code_to_content"]
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) " \
              "Chrome/85.0.4183.121 Safari/537.36"
@@ -42,6 +42,31 @@ def perform_request(method: str, url: str, *args, **kwargs):
     :return:
     """
     return SCRAPER.request(method, url, *args, **kwargs)
+
+
+def jav_code_to_content(code: str) -> str:
+    """
+    Unfixes a fixed JAV code to a content code for DMM.
+    :param code:
+    :return:
+    """
+    letters = ""
+    numbers = ""
+
+    # Force lowercase
+    code = code.lower()
+
+    # Find starting letters (IPX-XXX)
+    for char in code:
+        # For characters in lowercase alphabet or is a number
+        if ord(char) in range(97, 123):
+            letters += char
+        elif ord(char) in range(48, 58):
+            numbers += char
+
+    # Return rejoined code with padded number
+    number = int(numbers) if numbers else 00000
+    return f"{letters}{number:05}"
 
 
 def fix_jav_code(code: str) -> str:

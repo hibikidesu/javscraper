@@ -12,6 +12,7 @@ Scraper library for JAVs.
 - Big Morkal
 - Caribbeancom
 - Deeps
+- DMM
 - IdeaPocket
 - JAVLibrary
 - KMProduce

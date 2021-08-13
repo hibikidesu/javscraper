@@ -266,6 +266,16 @@ class SearchTests(unittest.TestCase):
         self.assertTrue(result[0].startswith("http"))
         self.assertTrue("dvdms-699" in result[0])
 
+    def test_dmm(self):
+        base = DMM()
+
+        result = base.search("aaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("JUFE-202")
+        self.assertTrue(len(result) > 0)
+        self.assertTrue(result[0].startswith("http"))
+
 
 if __name__ == '__main__':
     unittest.main()

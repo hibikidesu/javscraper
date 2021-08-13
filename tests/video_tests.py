@@ -416,6 +416,46 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.sample_video.startswith("http"))
         self.assertIsNone(result.description)
 
+    def test_dmm_pro(self):
+        base = DMM()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("JUFE-202")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "JUFE-202")
+        self.assertEqual(result.studio, "Fitch")
+        self.assertTrue(result.image.startswith("http"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("http"))
+        self.assertIsNotNone(result.description)
+        self.assertEqual(result.release_date.year, 2020)
+        self.assertEqual(result.release_date.month, 9)
+        self.assertEqual(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "桃園怜奈")
+
+    def test_dmm_amateur(self):
+        base = DMM()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        search = base.search("POW-006")
+        search = [x for x in search if "videoc" in x][0]
+
+        result = base.get_video(search)
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "POW-006")
+        self.assertEqual(result.studio, "素人ホイホイpower")
+        self.assertTrue(result.image.startswith("http"))
+        self.assertIsNotNone(result.sample_video)
+        self.assertTrue(result.sample_video.startswith("http"))
+        self.assertIsNotNone(result.description)
+        self.assertEqual(result.release_date.year, 2020)
+        self.assertEqual(result.release_date.month, 5)
+        self.assertEqual(len(result.actresses), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
