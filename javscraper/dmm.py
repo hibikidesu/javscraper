@@ -54,7 +54,7 @@ class DMM(Base, ABC):
     @staticmethod
     def _fix_actresses(url: str, tree) -> list:
         actresses = tree.xpath("//table[@class='mg-b20']/tr[contains(td[1], '出演者')]/td[2]//a")
-        return actresses if actresses else []
+        return [x.text_content() for x in actresses] if actresses else []
 
     @staticmethod
     def _fix_studio(url: str, tree) -> str:
