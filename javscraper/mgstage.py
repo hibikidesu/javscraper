@@ -22,7 +22,7 @@ class MGStage(Base, ABC):
             "code": self._fix_code,
             "studio": "//tr[th='メーカー：']/td/a",
             "image": self._fix_image,
-            "actresses": "//tr[th='出演：']/td/a",
+            "actresses": self._fix_actresses,
             "genres": "//tr[th='ジャンル：']/td/a",
             "release_date": "//tr[th='配信開始日：']/td",
             "description": "//p[contains(@class, 'introduction')]",
@@ -43,6 +43,13 @@ class MGStage(Base, ABC):
     @staticmethod
     def _fix_code(url: str, tree) -> str:
         return re.search(r"product_detail/([a-zA-Z0-9-_]*)", url).group(1)
+
+    @staticmethod
+    def _fix_actresses(url: str, tree) -> list:
+        found = tree.xpath("//tr[th='出演：']/td/a")
+        if found:
+            return [x.text_content().strip() for x in found]
+        return []
 
     @staticmethod
     def _fix_image(url: str, tree) -> str:

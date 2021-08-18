@@ -19,4 +19,4 @@ from .s1 import S1
 from .sod import SOD
 from .tenmusume import TenMusume
 
-__version__ = "1.1.1"
+__version__ = "1.1.2"
