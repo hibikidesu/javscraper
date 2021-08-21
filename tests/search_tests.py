@@ -276,6 +276,21 @@ class SearchTests(unittest.TestCase):
         self.assertTrue(len(result) > 0)
         self.assertTrue(result[0].startswith("http"))
 
+    def test_heyzo(self):
+        base = Heyzo()
+
+        result = base.search("aaaaaaaaa")
+        self.assertEqual(result, [])
+
+        result = base.search("ねっとりベロチュー、みっちりセックス～グチョグチョにしてほしい")
+        self.assertEqual(len(result), 1)
+        self.assertTrue(result[0].startswith("http"))
+
+        base = Heyzo(english=True)
+        result = base.search("Deep Kiss, Furious Sex -Make Me Wet-")
+        self.assertEqual(len(result), 1)
+        self.assertTrue(result[0].startswith("http"))
+
 
 if __name__ == '__main__':
     unittest.main()

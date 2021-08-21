@@ -485,6 +485,35 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(2015, result.release_date.year)
         self.assertIsNotNone(result.description)
 
+    def test_heyzo(self):
+        base = Heyzo()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("2478")
+        self.assertEqual("ねっとりベロチュー、みっちりセックス～グチョグチョにしてほしい～", result.name)
+        self.assertEqual("Heyzo-2478", result.code)
+        self.assertEqual("Heyzo", result.studio)
+        self.assertIsNotNone(result.image)
+        self.assertTrue(result.image.startswith("https"))
+        self.assertEqual(len(result.actresses), 1)
+        self.assertTrue("森田みゆ", result.actresses[0])
+        self.assertTrue(2021, result.release_date.year)
+        self.assertIsNotNone(result.description)
+
+        base = Heyzo(english=True)
+        result = base.get_video("2478")
+        self.assertEqual("Deep Kiss, Furious Sex -Make Me Wet-", result.name)
+        self.assertEqual("Heyzo-2478", result.code)
+        self.assertEqual("Heyzo", result.studio)
+        self.assertIsNotNone(result.image)
+        self.assertTrue(result.image.startswith("https"))
+        self.assertEqual(len(result.actresses), 1)
+        self.assertTrue("Miyu Morita", result.actresses[0])
+        self.assertTrue(2021, result.release_date.year)
+        self.assertIsNone(result.description)
+
 
 if __name__ == '__main__':
     unittest.main()

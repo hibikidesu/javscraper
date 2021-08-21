@@ -9,6 +9,7 @@ from .bigmorkal import BigMorkal
 from .caribbeancom import Caribbeancom
 from .deeps import Deeps
 from .dmm import DMM
+from .heyzo import Heyzo
 from .ideapocket import IdeaPocket
 from .javlibrary import JAVLibrary
 from .kmproduce import KMProduce

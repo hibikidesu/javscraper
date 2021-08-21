@@ -13,6 +13,7 @@ Scraper library for JAVs.
 - Caribbeancom
 - Deeps
 - DMM
+- Heyzo
 - IdeaPocket
 - JAVLibrary
 - KMProduce
