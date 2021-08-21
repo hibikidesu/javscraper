@@ -21,6 +21,7 @@ Scraper library for JAVs.
 - R18
 - S1
 - SOD Prime
+- 1pondo
 - 10Musume
 
 ## Requirements

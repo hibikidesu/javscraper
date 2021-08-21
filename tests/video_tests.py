@@ -456,6 +456,35 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.release_date.month, 5)
         self.assertEqual(len(result.actresses), 0)
 
+    def test_1pondo(self):
+        base = OnePondo()
+
+        result = base.get_video("zzzzzzzzz")
+        self.assertIsNone(result)
+
+        result = base.get_video("061915_100")
+        self.assertEqual("モデルコレクション リゾート 佐伯ゆきな", result.name)
+        self.assertEqual("061915_100", result.code)
+        self.assertEqual("1pondo", result.studio)
+        self.assertIsNotNone(result.image)
+        self.assertTrue(result.image.startswith("https"))
+        self.assertEqual(len(result.actresses), 1)
+        self.assertTrue("佐伯ゆきな", result.actresses[0])
+        self.assertTrue(2015, result.release_date.year)
+        self.assertIsNotNone(result.description)
+
+        base = OnePondo(english=True)
+        result = base.get_video("061915_100")
+        self.assertEqual("Model Collection: Yukina Saeki", result.name)
+        self.assertEqual("061915_100", result.code)
+        self.assertEqual("1pondo", result.studio)
+        self.assertIsNotNone(result.image)
+        self.assertTrue(result.image.startswith("https"))
+        self.assertEqual(len(result.actresses), 1)
+        self.assertTrue("Yukina Saeki", result.actresses[0])
+        self.assertTrue(2015, result.release_date.year)
+        self.assertIsNotNone(result.description)
+
 
 if __name__ == '__main__':
     unittest.main()
