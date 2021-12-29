@@ -51,7 +51,7 @@ class S1(Base, ABC):
 
     @staticmethod
     def _fix_image(url: str, tree) -> str:
-        return tree.xpath("//img[@class='pc']")[0].get("src")
+        return tree.xpath("//div[@class='swiper-wrapper']/div[2]/img")[0].get("src")
 
     @staticmethod
     def _fix_sample_video(url: str, tree) -> str:
