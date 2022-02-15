@@ -14,21 +14,23 @@ class IdeaPocket(Base, ABC):
     def __init__(self):
         super().__init__(base_url="https://www.ideapocket.com")
         self._set_date_fmt("%Y年%m月%d日")
-        self._set_search_xpath("//a[@class='works-list-item-info']")
+        self._set_search_xpath("//a[@class='img hover']")
         self._set_video_xpath({
-            "name": "//div[@class='works-info-ttl']/h1",
+            "name": "//h2[@class='p-workPage__title']",
             "code": self._fix_code,
             "studio": self._fix_studio,
             "image": self._fix_image,
-            "actresses": "//li[contains(@class, 'works-info-data-item') and contains(dl/dt, '女優')]//a",
-            "genres": "//li[contains(@class, 'works-info-data-item') and contains(dl/dt, 'ジャンル')]//a",
-            "release_date": "//li[contains(@class, 'works-info-data-item') and contains(dl/dt, '発売日')]//a",
-            "description": "//div[@class='works-info-comment']/p",
+            "actresses": "//div[@class='p-workPage__table']/div[@class='item']/div[contains(text(), '女優')]/../div[2]//a",
+            "genres": "//div[@class='p-workPage__table']/div[@class='item']/div[contains(text(), 'ジャンル')]/../div[2]//a",
+            "release_date": "//div[@class='p-workPage__table']/div[@class='item']/div[contains(text(), '発売日')]/../div[2]//a",
+            "description": "//p[@class='p-workPage__text']",
             "sample_video": self._fix_sample_video
         })
+        self._set_allow_redirects(True)
 
     def _build_search_path(self, query: str) -> str:
-        return f"/search/list/?q={quote(query)}"
+        query = query.replace("-", "")
+        return f"/search/list/?keyword={quote(query)}"
 
     def _build_video_path(self, query: str) -> Optional[str]:
         video_url = self.search(query)
@@ -42,7 +44,8 @@ class IdeaPocket(Base, ABC):
 
     @staticmethod
     def _fix_code(url: str, tree) -> str:
-        return fix_jav_code(IdeaPocket._get_raw_code(url))
+        code = tree.xpath("//div[@class='p-workPage__table']/div[@class='item']/div[contains(text(), '品番')]/../div[2]//p/text()")[0]
+        return fix_jav_code(code.replace("DVD", "", 1).strip())
 
     @staticmethod
     def _fix_studio(url: str, tree) -> str:
@@ -50,9 +53,9 @@ class IdeaPocket(Base, ABC):
 
     @staticmethod
     def _fix_image(url: str, tree) -> str:
-        code = IdeaPocket._get_raw_code(url)
-        return f"https://www.ideapocket.com/contents/works/{code}/{code}-pl.jpg"
+        path = tree.xpath("//div[@class='swiper-slide'][1]/img/@data-src")[0]
+        return path
 
     @staticmethod
     def _fix_sample_video(url: str, tree) -> str:
-        return tree.xpath("//div[@id='js-c-box-video']/video")[0].get("src")
+        return tree.xpath("//video")[0].get("src")

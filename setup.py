@@ -10,7 +10,7 @@ requirements = [
 
 setup(
     name="javscraper",
-    version="1.1.3",
+    version="1.1.4",
     description="Python library used to help scrape JAV sites.",
     url="https://github.com/hibikidesu/javscraper",
     author="Hibiki",

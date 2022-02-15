@@ -13,20 +13,22 @@ class Attackers(Base, ABC):
     def __init__(self):
         super().__init__(base_url="https://www.attackers.net")
         self._set_date_fmt("%Y年%m月%d日")
-        self._set_search_xpath("//a[@class='works-list-item-info']")
+        self._set_search_xpath("//a[@class='img hover']")
         self._set_video_xpath({
-            "name": "//h2[@class='page-sub-title-tx']",
+            "name": "//h2[@class='p-workPage__title']",
             "code": self._fix_code,
             "studio": self._fix_studio,
             "image": self._fix_image,
-            "actresses": "//ul[@class='works-detail-info']/li/dl[contains(dt, '出演女優')]/dd//a",
-            "genres": "//ul[@class='works-detail-info']/li/dl[contains(dt, 'ジャンル')]/dd//a",
-            "release_date": "//ul[@class='works-detail-info']/li/dl[contains(dt, '発売日')]/dd//a",
-            "description": "//div[@class='works-detail-desc-tx']/p"
+            "actresses": "//div[@class='p-workPage__table']/div[@class='item']/div[contains(text(), '女優')]/../div[2]//a",
+            "genres": "//div[@class='p-workPage__table']/div[@class='item']/div[contains(text(), 'ジャンル')]/../div[2]//a",
+            "release_date": "//div[@class='p-workPage__table']/div[@class='item']/div[contains(text(), '発売日')]/../div[2]//a",
+            "description": "//p[@class='p-workPage__text']"
         })
+        self._set_allow_redirects(True)
 
     def _build_search_path(self, query: str) -> str:
-        return f"/search/list/?q={quote(query)}"
+        query = query.replace("-", "")
+        return f"/search/list/?keyword={quote(query)}"
 
     def _build_video_path(self, query: str) -> Optional[str]:
         video_url = self.search(query)
@@ -39,10 +41,11 @@ class Attackers(Base, ABC):
         return "Attackers"
 
     @staticmethod
-    def _fix_code(url: str, tree) -> str:
-        code = tree.xpath("//ul[@class='works-detail-info']/li/dl[contains(dt, '品番')]//li[1]/text()")[1]
-        return fix_jav_code(code.strip())
+    def _fix_image(url: str, tree) -> str:
+        path = tree.xpath("//div[@class='swiper-slide'][1]/img/@data-src")[0]
+        return path
 
     @staticmethod
-    def _fix_image(url: str, tree) -> str:
-        return urljoin(url, tree.xpath("//figure[1]/a")[0].get("href"))
+    def _fix_code(url: str, tree) -> str:
+        code = tree.xpath("//div[@class='p-workPage__table']/div[@class='item']/div[contains(text(), '品番')]/../div[2]//p/text()")[0]
+        return fix_jav_code(code.replace("DVD", "", 1).strip())

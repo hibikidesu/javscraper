@@ -33,6 +33,9 @@ class JAVLibrary(Base, ABC):
         video_url = self.search(query)
         if len(video_url) == 0:
             return None
+
+        if self.debug:
+            print(f"Found video {video_url[0]}")
         return video_url[0]
 
     @staticmethod

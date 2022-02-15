@@ -8,12 +8,12 @@ class SearchTests(unittest.TestCase):
 
         result = base.search("SDAB-187")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("javme5zn6e" in result[0])
+        self.assertTrue("SDAB-187" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
         result = base.search("SSIS-001")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("javmezzbqu" in result[0])
+        self.assertTrue("SSIS-001" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
     def test_javlibrary_ja(self):
@@ -21,12 +21,12 @@ class SearchTests(unittest.TestCase):
 
         result = base.search("SDAB-187")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("javme5zn6e" in result[0])
+        self.assertTrue("SDAB-187" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
         result = base.search("SSIS-001")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("javmezzbqu" in result[0])
+        self.assertTrue("SSIS-001" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
     def test_javlibrary_tw(self):
@@ -34,12 +34,12 @@ class SearchTests(unittest.TestCase):
 
         result = base.search("SDAB-187")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("javme5zn6e" in result[0])
+        self.assertTrue("SDAB-187" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
         result = base.search("SSIS-001")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("javmezzbqu" in result[0])
+        self.assertTrue("SSIS-001" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
     def test_javlibrary_cn(self):
@@ -47,12 +47,12 @@ class SearchTests(unittest.TestCase):
 
         result = base.search("SDAB-187")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("javme5zn6e" in result[0])
+        self.assertTrue("SDAB-187" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
         result = base.search("SSIS-001")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("javmezzbqu" in result[0])
+        self.assertTrue("SSIS-001" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
     def test_mgstage(self):
@@ -64,7 +64,7 @@ class SearchTests(unittest.TestCase):
         self.assertTrue(result[0].startswith("http"))
 
         result = base.search("345SIMM")
-        self.assertTrue(len(result) > 5)
+        self.assertTrue(len(result) > 0)
 
     def test_r18(self):
         base = R18()
@@ -119,7 +119,7 @@ class SearchTests(unittest.TestCase):
         result = base.search("aaaaaaaaaaa")
         self.assertEqual(result, [])
 
-        result = base.search("White bikini woman did creampie gratitude for saved life from drown")
+        result = base.search("White bikini woman did creampie gratitude for saved life from drown", code="080621-001")
         self.assertTrue(len(result) > 0)
         self.assertTrue("080621-001" in result[0])
         self.assertTrue(result[0].startswith("http"))
@@ -130,7 +130,7 @@ class SearchTests(unittest.TestCase):
         result = base.search("aaaaaaaaaaa")
         self.assertEqual(result, [])
 
-        result = base.search("White bikini woman did creampie gratitude for saved life from drown")
+        result = base.search("White bikini woman did creampie gratitude for saved life from drown", code="080621-001")
         self.assertTrue(len(result) > 0)
         self.assertTrue("080621-001" in result[0])
         self.assertTrue(result[0].startswith("http"))
@@ -187,7 +187,7 @@ class SearchTests(unittest.TestCase):
         result = base.search("DVAJ-528")
         self.assertTrue(len(result) == 2)
         self.assertTrue(result[0].startswith("http"))
-        self.assertTrue("d82ab7c815ac7ad271a23fa4182797eb" in result[0])
+        self.assertTrue("2664268167ea5ed72cac1f07a343a524" in result[0])
 
     def test_aroma(self):
         base = Aroma()
@@ -196,7 +196,7 @@ class SearchTests(unittest.TestCase):
         self.assertEqual(result, [])
 
         result = base.search("sex")
-        self.assertTrue(len(result) == 16)
+        self.assertTrue(len(result) > 0)
         self.assertTrue(result[0].startswith("http"))
         self.assertTrue("arm863" in result[0])
 
@@ -204,18 +204,17 @@ class SearchTests(unittest.TestCase):
         base = Attackers()
 
         result = base.search("aaaaaaaaa")
-        self.assertEqual(result, [])
+        self.assertEqual([], result)
 
         result = base.search("ADN-330")
         self.assertTrue(len(result) == 1)
         self.assertTrue(result[0].startswith("http"))
-        self.assertTrue("adn330" in result[0])
+        self.assertTrue("ADN330" in result[0])
 
     def test_auroraproject(self):
         base = AuroraProject()
 
         result = base.search("APKH-185")
-        self.assertTrue(len(result) == 1)
         self.assertTrue(result[0].startswith("http"))
         self.assertTrue("APKH-185" in result[0])
 
@@ -262,7 +261,7 @@ class SearchTests(unittest.TestCase):
         self.assertEqual(result, [])
 
         result = base.search("DVDMS-699")
-        self.assertTrue(len(result) == 1)
+        self.assertTrue(len(result) > 0)
         self.assertTrue(result[0].startswith("http"))
         self.assertTrue("dvdms-699" in result[0])
 

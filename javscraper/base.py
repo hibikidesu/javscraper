@@ -1,6 +1,7 @@
 from typing import List, Optional
 from urllib.parse import urljoin
 from datetime import datetime
+from difflib import get_close_matches
 from .utils import *
 
 from lxml import html as l_html
@@ -10,7 +11,7 @@ __all__ = ["Base"]
 
 class Base:
 
-    def __init__(self, *, base_url: str):
+    def __init__(self, *, base_url: str, debug: bool = False):
         self.PARAMS = {
             "base_url": "https://example.com",
             "cookies": {},
@@ -23,6 +24,7 @@ class Base:
             "video_xpath": {}
         }
         self._set_base_url(base_url)
+        self.debug: bool = debug
 
     # Helper functions
 
@@ -61,6 +63,8 @@ class Base:
 
     def _make_normal_search(self, path: str) -> List[str]:
         url = self.PARAMS["base_url"] + path
+        if self.debug:
+            print(f"URL: {url}")
         with SCRAPER.get(url,
                          allow_redirects=self.PARAMS["allow_redirects"],
                          cookies=self.PARAMS["cookies"],
@@ -69,20 +73,33 @@ class Base:
             try:
                 res.raise_for_status()
             except:
+                if self.debug:
+                    print(f"Failed to make request, {res.status_code}")
                 return []
 
             # Check for redirects
             redirect_location = res.headers.get("Location")
             if redirect_location and not self.PARAMS["allow_redirects"]:
                 # Return redirect url if any
+                if self.debug:
+                    print(f"Redirecting to {redirect_location}")
                 return [urljoin(res.url, redirect_location)]
 
             tree = l_html.fromstring(res.content.decode(self.PARAMS["encoding"], errors="ignore"))
 
         items = tree.xpath(self.PARAMS["search_xpath"])
-        return [urljoin(res.url, item.get("href")) for item in items]
+        if self.debug:
+            print(f"Items: {items}")
+
+        out = [urljoin(res.url, item.get("href")) for item in items]
+        if self.debug:
+            print(f"Out: {out}")
+
+        return out
 
     def _make_normal_video(self, url: str) -> Optional[JAVResult]:
+        if self.debug:
+            print(f"URL: {url}")
         with SCRAPER.get(url,
                          cookies=self.PARAMS["cookies"],
                          headers=self.PARAMS["headers"]) as res:
@@ -107,6 +124,10 @@ class Base:
                 out[name] = xpath(res.url, tree)
             else:
                 found = tree.xpath(xpath)
+
+                if self.debug:
+                    print(name, found)
+
                 if found:
                     if name in ["actresses", "genres"]:
                         out[name] = [x.text_content().strip() for x in found]
@@ -120,17 +141,20 @@ class Base:
 
     # Callable functions
 
-    def search(self, query: str) -> List[str]:
+    def search(self, query: str, *, code: str = None) -> List[str]:
         """
         Searches for videos with given query.
         :param query: Search terms
+        :param code: Code for closest match if not in query
         :return: List of found URLs
         """
         # Build URL
         path = self._build_search_path(query)
+        if self.debug:
+            print(f"Path: {path}")
 
         # Make request
-        return self._make_normal_search(path)
+        return get_close_matches(code or query, self._make_normal_search(path), cutoff=0)
 
     def get_video(self, video: str) -> Optional[JAVResult]:
         """

@@ -14,9 +14,9 @@ class Deeps(Base, ABC):
     def __init__(self):
         super().__init__(base_url="https://deeps.net")
         self._set_date_fmt("%Y.%m.%d")
-        self._set_search_xpath("//li[@class='shinsaku']/a[1]")
+        self._set_search_xpath("//li[@class='ippan']/a[1]")
         self._set_video_xpath({
-            "name": "//h1[@class='shinsaku']",
+            "name": "//h1[@class='ippan']",
             "code": self._fix_code,
             "studio": self._fix_studio,
             "image": self._fix_image,
