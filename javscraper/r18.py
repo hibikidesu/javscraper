@@ -129,8 +129,8 @@ class R18:
         data = content.get("data", {})
         return JAVResult(
             name=self.uncensor_string(data.get("title")),
-            code=data.get("dvd_id"),
-            studio=data.get("maker", {}).get("name"),
+            code=data.get("dvd_id").upper(),
+            studio=data.get("maker", {}).get("name") if data.get("maker", {}) else {},
             image=data.get("images", {}).get("jacket_image", {}).get("large"),
             actresses=[x.get("name") for x in data.get("actresses", [])],
             genres=[self.uncensor_string(x.get("name")) for x in data.get("categories", [])],

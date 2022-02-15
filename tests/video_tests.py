@@ -6,8 +6,8 @@ class VideoTests(unittest.TestCase):
     def test_javlibrary_en(self):
         base = JAVLibrary()
 
-        # result = base.get_video("abcdefghijklm")
-        # self.assertIsNone(result)
+        result = base.get_video("abcdefghijklm")
+        self.assertIsNone(result)
 
         result = base.get_video("SDAB-187")
         self.assertIsNotNone(result)
@@ -21,8 +21,8 @@ class VideoTests(unittest.TestCase):
     def test_javlibrary_ja(self):
         base = JAVLibrary("ja")
 
-        # result = base.get_video("abcdefghijklm")
-        # self.assertIsNone(result)
+        result = base.get_video("abcdefghijklm")
+        self.assertIsNone(result)
 
         result = base.get_video("SDAB-187")
         self.assertIsNotNone(result)
@@ -36,8 +36,8 @@ class VideoTests(unittest.TestCase):
     def test_javlibrary_tw(self):
         base = JAVLibrary("tw")
 
-        # result = base.get_video("abcdefghijklm")
-        # self.assertIsNone(result)
+        result = base.get_video("abcdefghijklm")
+        self.assertIsNone(result)
 
         result = base.get_video("SDAB-187")
         self.assertIsNotNone(result)
@@ -51,8 +51,8 @@ class VideoTests(unittest.TestCase):
     def test_javlibrary_cn(self):
         base = JAVLibrary("cn")
 
-        # result = base.get_video("abcdefghijklm")
-        # self.assertIsNone(result)
+        result = base.get_video("abcdefghijklm")
+        self.assertIsNone(result)
 
         result = base.get_video("SDAB-187")
         self.assertIsNotNone(result)
@@ -96,6 +96,14 @@ class VideoTests(unittest.TestCase):
         self.assertIsNotNone(result.sample_video)
         self.assertIsNone(result.description)
         self.assertTrue(result.sample_video.startswith("http"))
+
+        result = base.get_video("POW-051")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.code, "POW-051")
+        self.assertTrue(result.image.startswith("https"))
+        self.assertEqual(len(result.actresses), 1)
+        self.assertEqual(result.actresses[0], "Nano Hinano")
+        self.assertIsNotNone(result.sample_video)
 
     def test_s1(self):
         base = S1()

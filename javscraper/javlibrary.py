@@ -1,3 +1,4 @@
+import traceback
 from abc import ABC
 from typing import Optional
 
@@ -5,6 +6,8 @@ from urllib.parse import quote, urljoin
 from .base import Base
 
 __all__ = ["JAVLibrary"]
+
+from .utils import JAVResult
 
 
 class JAVLibrary(Base, ABC):
@@ -48,3 +51,23 @@ class JAVLibrary(Base, ABC):
         value = tree.xpath("//h3[contains(@class, 'post-title')]")[0].text_content()
         code = tree.xpath("//div[@id='video_id']/table/tr/td[2]")[0].text_content()
         return value.replace(code, "").strip()
+
+    def get_video(self, video: str) -> Optional[JAVResult]:
+        """
+        Returns data for a found jav
+        :param video: JAV code or URL
+        :return: JAV results
+        """
+        # Build URL
+        if not video.startswith("http"):
+            video = self._build_video_path(video)
+            if video is None:
+                return None
+
+        # Make request
+        try:
+            return self._make_normal_video(video)
+        except:
+            if self.debug:
+                traceback.print_exc()
+            return None
