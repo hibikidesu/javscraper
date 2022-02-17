@@ -141,7 +141,10 @@ class Base:
                     else:
                         out[name] = found[0].text_content().strip()
                 else:
-                    out[name] = []
+                    if name in ["actresses", "genres"]:
+                        out[name] = []
+                    else:
+                        out[name] = ""
 
         return JAVResult(**out)
 
