@@ -140,6 +140,8 @@ class Base:
                         out[name] = datetime.strptime(value, self.PARAMS["date_fmt"])
                     else:
                         out[name] = found[0].text_content().strip()
+                else:
+                    out[name] = []
 
         return JAVResult(**out)
 
