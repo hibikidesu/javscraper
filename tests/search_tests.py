@@ -5,6 +5,7 @@ from javscraper import *
 class SearchTests(unittest.TestCase):
     def test_javlibrary_en(self):
         base = JAVLibrary()
+        # base.debug = True
 
         result = base.search("SDAB-187")
         self.assertTrue(len(result) > 0)

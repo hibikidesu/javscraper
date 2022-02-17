@@ -21,7 +21,8 @@ class Base:
             "fail_callback": None,
             "encoding": "utf-8",
             "search_xpath": "",
-            "video_xpath": {}
+            "video_xpath": {},
+            "return_redirect": False
         }
         self._set_base_url(base_url)
         self.debug: bool = debug
@@ -48,6 +49,9 @@ class Base:
 
     def _set_allow_redirects(self, allow_redirects: bool):
         self.PARAMS["allow_redirects"] = allow_redirects
+
+    def _set_return_redirect(self, return_redirect: bool):
+        self.PARAMS["return_redirect"] = return_redirect
 
     def _set_search_xpath(self, search: str):
         self.PARAMS["search_xpath"] = search
@@ -77,6 +81,9 @@ class Base:
                     print(f"Failed to make request, {res.status_code}")
                 return []
 
+            if self.debug and self.PARAMS["allow_redirects"]:
+                print(f"Redirected URL: {res.url}")
+
             # Check for redirects
             redirect_location = res.headers.get("Location")
             if redirect_location and not self.PARAMS["allow_redirects"]:
@@ -84,6 +91,8 @@ class Base:
                 if self.debug:
                     print(f"Redirecting to {redirect_location}")
                 return [urljoin(res.url, redirect_location)]
+            elif self.PARAMS["return_redirect"]:
+                return [res.url]
 
             tree = l_html.fromstring(res.content.decode(self.PARAMS["encoding"], errors="ignore"))
 

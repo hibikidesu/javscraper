@@ -5,6 +5,7 @@ from javscraper import *
 class VideoTests(unittest.TestCase):
     def test_javlibrary_en(self):
         base = JAVLibrary()
+        # base.debug = True
 
         result = base.get_video("abcdefghijklm")
         self.assertIsNone(result)

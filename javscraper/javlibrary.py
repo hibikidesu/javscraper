@@ -1,6 +1,7 @@
 import traceback
 from abc import ABC
-from typing import Optional
+from difflib import get_close_matches
+from typing import Optional, List
 
 from urllib.parse import quote, urljoin
 from .base import Base
@@ -28,6 +29,8 @@ class JAVLibrary(Base, ABC):
             "genres": "//span[@class='genre']/a",
             "release_date": "//div[@id='video_date']/table/tr/td[2]"
         })
+        self._set_allow_redirects(True)
+        self._set_return_redirect(True)
 
     def _build_search_path(self, query: str) -> str:
         return f"/{self.region}/vl_searchbyid.php?keyword={quote(query)}"
@@ -52,22 +55,24 @@ class JAVLibrary(Base, ABC):
         code = tree.xpath("//div[@id='video_id']/table/tr/td[2]")[0].text_content()
         return value.replace(code, "").strip()
 
-    def get_video(self, video: str) -> Optional[JAVResult]:
+    def search(self, query: str, *, code: str = None) -> List[str]:
         """
-        Returns data for a found jav
-        :param video: JAV code or URL
-        :return: JAV results
+        Searches for videos with given query.
+        :param query: Search terms
+        :param code: Code for closest match if not in query
+        :return: List of found URLs
         """
         # Build URL
-        if not video.startswith("http"):
-            video = self._build_video_path(video)
-            if video is None:
-                return None
+        path = self._build_search_path(query)
+        if self.debug:
+            print(f"Path: {path}")
+
+        results = self._make_normal_search(path)
+        if self.debug:
+            print(f"Results: {results}")
+
+        if not results or "searchbyid" in results[0]:
+            return []
 
         # Make request
-        try:
-            return self._make_normal_video(video)
-        except:
-            if self.debug:
-                traceback.print_exc()
-            return None
+        return results
