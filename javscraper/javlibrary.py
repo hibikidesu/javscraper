@@ -25,7 +25,7 @@ class JAVLibrary(Base, ABC):
             "code": "//div[@id='video_id']/table/tr/td[2]",
             "studio": "//div[@id='video_maker']/table/tr/td[2]/span/a",
             "image": self._fix_image,
-            "actresses": self._fix_actresses,
+            "actresses": "//span[@class='star']/a",
             "genres": "//span[@class='genre']/a",
             "release_date": "//div[@id='video_date']/table/tr/td[2]"
         })
@@ -52,11 +52,3 @@ class JAVLibrary(Base, ABC):
         value = tree.xpath("//h3[contains(@class, 'post-title')]")[0].text_content()
         code = tree.xpath("//div[@id='video_id']/table/tr/td[2]")[0].text_content()
         return value.replace(code, "").strip()
-
-    @staticmethod
-    def _fix_actresses(url: str, tree) -> list:
-        found = tree.xpath("//span[@class='star']/a")
-        if not found:
-            return []
-
-        return [x.text_content().strip() for x in found]
