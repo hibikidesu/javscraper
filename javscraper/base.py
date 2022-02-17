@@ -3,8 +3,6 @@ from urllib.parse import urljoin
 from datetime import datetime
 from difflib import get_close_matches
 
-import requests
-
 from .utils import *
 
 from lxml import html as l_html
