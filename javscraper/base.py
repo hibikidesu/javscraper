@@ -2,6 +2,9 @@ from typing import List, Optional
 from urllib.parse import urljoin
 from datetime import datetime
 from difflib import get_close_matches
+
+import requests
+
 from .utils import *
 
 from lxml import html as l_html
@@ -21,8 +24,7 @@ class Base:
             "fail_callback": None,
             "encoding": "utf-8",
             "search_xpath": "",
-            "video_xpath": {},
-            "return_redirect": False
+            "video_xpath": {}
         }
         self._set_base_url(base_url)
         self.debug: bool = debug
@@ -49,9 +51,6 @@ class Base:
 
     def _set_allow_redirects(self, allow_redirects: bool):
         self.PARAMS["allow_redirects"] = allow_redirects
-
-    def _set_return_redirect(self, return_redirect: bool):
-        self.PARAMS["return_redirect"] = return_redirect
 
     def _set_search_xpath(self, search: str):
         self.PARAMS["search_xpath"] = search
@@ -91,8 +90,6 @@ class Base:
                 if self.debug:
                     print(f"Redirecting to {redirect_location}")
                 return [urljoin(res.url, redirect_location)]
-            elif self.PARAMS["return_redirect"]:
-                return [res.url]
 
             tree = l_html.fromstring(res.content.decode(self.PARAMS["encoding"], errors="ignore"))
 

@@ -5,16 +5,15 @@ from javscraper import *
 class SearchTests(unittest.TestCase):
     def test_javlibrary_en(self):
         base = JAVLibrary()
-        # base.debug = True
 
         result = base.search("SDAB-187")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("SDAB-187" in result[0])
+        self.assertTrue("javme5zn6e" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
         result = base.search("SSIS-001")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("SSIS-001" in result[0])
+        self.assertTrue("javmezzbqu" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
     def test_javlibrary_ja(self):
@@ -22,12 +21,12 @@ class SearchTests(unittest.TestCase):
 
         result = base.search("SDAB-187")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("SDAB-187" in result[0])
+        self.assertTrue("javme5zn6e" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
         result = base.search("SSIS-001")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("SSIS-001" in result[0])
+        self.assertTrue("javmezzbqu" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
     def test_javlibrary_tw(self):
@@ -35,12 +34,12 @@ class SearchTests(unittest.TestCase):
 
         result = base.search("SDAB-187")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("SDAB-187" in result[0])
+        self.assertTrue("javme5zn6e" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
         result = base.search("SSIS-001")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("SSIS-001" in result[0])
+        self.assertTrue("javmezzbqu" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
     def test_javlibrary_cn(self):
@@ -48,12 +47,13 @@ class SearchTests(unittest.TestCase):
 
         result = base.search("SDAB-187")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("SDAB-187" in result[0])
+        self.assertTrue("javme5zn6e" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
+        base.debug = True
         result = base.search("SSIS-001")
         self.assertTrue(len(result) > 0)
-        self.assertTrue("SSIS-001" in result[0])
+        self.assertTrue("javmezzbqu" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
     def test_mgstage(self):
