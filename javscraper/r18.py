@@ -135,7 +135,7 @@ class R18:
             actresses=[x.get("name") for x in data.get("actresses", []) or []],
             genres=[self.uncensor_string(x.get("name")) for x in data.get("categories", [])],
             release_date=datetime.strptime(data.get("release_date"), "%Y-%m-%d %H:%M:%S"),
-            sample_video=data.get("sample", {}).get("high")
+            sample_video=(data.get("sample", {}) or {}).get("high")
         )
 
     def uncensor_string(self, text: str) -> str:
