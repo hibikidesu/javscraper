@@ -5,7 +5,6 @@ from javscraper import *
 class VideoTests(unittest.TestCase):
     def test_javlibrary_en(self):
         base = JAVLibrary()
-        # base.debug = True
 
         result = base.get_video("abcdefghijklm")
         self.assertIsNone(result)
@@ -521,7 +520,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(len(result.actresses), 1)
         self.assertTrue("Miyu Morita", result.actresses[0])
         self.assertTrue(2021, result.release_date.year)
-        self.assertIsNone(result.description)
+        self.assertEqual(result.description, "")
 
 
 if __name__ == '__main__':

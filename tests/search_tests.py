@@ -50,7 +50,6 @@ class SearchTests(unittest.TestCase):
         self.assertTrue("javme5zn6e" in result[0])
         self.assertTrue(result[0].startswith("http"))
 
-        base.debug = True
         result = base.search("SSIS-001")
         self.assertTrue(len(result) > 0)
         self.assertTrue("javmezzbqu" in result[0])
