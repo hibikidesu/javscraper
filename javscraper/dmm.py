@@ -26,7 +26,8 @@ class DMM(Base, ABC):
             "genres": "//table[@class='mg-b20']/tr[contains(td[1], 'ジャンル')]/td[2]//a",
             "release_date": "//table[@class='mg-b20']/tr[contains(td[1], '日')]/td[2]",
             "description": "//div[@class='mg-b20 lh4']",
-            "sample_video": self._fix_sample_video
+            "sample_video": self._fix_sample_video,
+            "score": self._fix_score
         })
 
     def _build_search_path(self, query: str) -> str:
@@ -95,3 +96,11 @@ class DMM(Base, ABC):
         query = jav_code_to_content(query)
         path_2 = self._build_search_path(query)
         return self._make_normal_search(path_2)
+
+    @staticmethod
+    def _fix_score(url: str, tree) -> float:
+        value = tree.xpath("//p[contains(@class, '-review__average')]/strong/text()")
+        if not value:
+            return 0.0
+
+        return float(re.search(r"([0-9.]+)", "".join(value)).group(1))

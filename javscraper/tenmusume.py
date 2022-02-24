@@ -50,6 +50,7 @@ class TenMusume:
         out["release_date"] = datetime.strptime(content.get("Release"), "%Y-%m-%d")
         out["sample_video"] = content.get("SampleFiles", [])[-1:][0].get("url")
         out["description"] = content.get("DescEn") if self.english else content.get("Desc")
+        out["score"] = content.get("AvgRating", 0.0)
 
         out["actresses"] = []
         for actress in content.get("ActressesList", {}):

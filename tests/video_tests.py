@@ -17,6 +17,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "Kamon Non")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
+        self.assertTrue(result.score > 9)
 
     def test_javlibrary_ja(self):
         base = JAVLibrary("ja")
@@ -32,6 +33,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "花門のん")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
+        self.assertTrue(result.score > 9)
 
     def test_javlibrary_tw(self):
         base = JAVLibrary("tw")
@@ -47,6 +49,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "花門のん")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
+        self.assertTrue(result.score > 9)
 
     def test_javlibrary_cn(self):
         base = JAVLibrary("cn")
@@ -62,6 +65,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "花門のん")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
+        self.assertTrue(result.score > 9)
 
     def test_mgstage(self):
         base = MGStage()
@@ -79,6 +83,7 @@ class VideoTests(unittest.TestCase):
         self.assertIsNotNone(result.sample_video)
         self.assertIsNotNone(result.description)
         self.assertTrue(result.sample_video.startswith("http"))
+        self.assertTrue(result.score > 4)
 
     def test_r18(self):
         base = R18()
@@ -152,6 +157,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "竹田しょうこ")
         self.assertIsNotNone(result.description)
         self.assertIsNone(result.sample_video)
+        self.assertTrue(2 < result.score < 3)
 
         base = TenMusume(english=True)
         result = base.get_video("080521_01")
@@ -442,6 +448,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.release_date.month, 9)
         self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "桃園怜奈")
+        self.assertGreater(result.score, 4)
 
     def test_dmm_amateur(self):
         base = DMM()
@@ -463,6 +470,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.release_date.year, 2020)
         self.assertEqual(result.release_date.month, 5)
         self.assertEqual(len(result.actresses), 0)
+        self.assertGreater(result.score, 4.5)
 
     def test_1pondo(self):
         base = OnePondo()

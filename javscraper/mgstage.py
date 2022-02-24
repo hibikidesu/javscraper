@@ -26,7 +26,8 @@ class MGStage(Base, ABC):
             "genres": "//tr[th='ジャンル：']/td/a",
             "release_date": "//tr[th='配信開始日：']/td",
             "description": "//p[contains(@class, 'introduction')]",
-            "sample_video": self._fix_sample_video
+            "sample_video": self._fix_sample_video,
+            "score": self._fix_score
         })
 
     def _build_search_path(self, query: str) -> str:
@@ -78,3 +79,11 @@ class MGStage(Base, ABC):
                 url = url.partition(".ism")[0] + ".mp4"
                 return url
         return None
+
+    @staticmethod
+    def _fix_score(url: str, tree) -> float:
+        value = tree.xpath("//td[@class='review']/text()")
+        if not value:
+            return 0.0
+
+        return float(re.search(r"([0-9.]+)\n", "".join(value)).group(1))

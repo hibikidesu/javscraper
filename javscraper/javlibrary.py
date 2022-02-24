@@ -1,3 +1,4 @@
+import re
 from abc import ABC
 from typing import Optional
 
@@ -23,7 +24,8 @@ class JAVLibrary(Base, ABC):
             "image": self._fix_image,
             "actresses": "//span[@class='star']/a",
             "genres": "//span[@class='genre']/a",
-            "release_date": "//div[@id='video_date']/table/tr/td[2]"
+            "release_date": "//div[@id='video_date']/table/tr/td[2]",
+            "score": self._fix_score
         })
 
     def _build_search_path(self, query: str) -> str:
@@ -48,3 +50,11 @@ class JAVLibrary(Base, ABC):
         value = tree.xpath("//h3[contains(@class, 'post-title')]")[0].text_content()
         code = tree.xpath("//div[@id='video_id']/table/tr/td[2]")[0].text_content()
         return value.replace(code, "").strip()
+
+    @staticmethod
+    def _fix_score(url: str, tree) -> float:
+        value = tree.xpath("//div[@id='video_review']//span/text()")
+        if not value:
+            return 0.0
+
+        return float(re.search(r"\(([0-9.]+)\)", "".join(value)).group(1))

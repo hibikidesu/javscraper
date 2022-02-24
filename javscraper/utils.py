@@ -1,6 +1,6 @@
 import cloudscraper
 
-from typing import List, Optional
+from typing import List, Optional, Union
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -30,6 +30,7 @@ class JAVResult:
     release_date: datetime
     sample_video: Optional[str] = None
     description: Optional[str] = None
+    score: Union[int, float] = 0
 
 
 def perform_request(method: str, url: str, *args, **kwargs):
