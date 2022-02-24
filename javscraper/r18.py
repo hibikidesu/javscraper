@@ -96,7 +96,7 @@ class R18:
             tree = l_html.fromstring(result.content.decode("utf-8"))
 
         # Get video URLs
-        return [x.get("href") for x in tree.xpath("//li[@class='item-list']/a")]
+        return [x.get("href") for x in tree.xpath("//li[contains(@class, 'item-list')]/a")]
 
     def get_video(self, video: str) -> Optional[JAVResult]:
         """
