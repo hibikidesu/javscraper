@@ -21,7 +21,7 @@ class S1(Base, ABC):
             "code": self._fix_code,
             "studio": self._fix_studio,
             "image": self._fix_image,
-            "actresses": "//div[@class='item' and contains(div, '女優')]//a",
+            "actresses": "//div[@class='item' and contains(div[@class='th'], '女優')]//a",
             "genres": "//div[@class='item' and contains(div, 'ジャンル')]//a",
             "release_date": "//div[@class='item' and contains(div, '発売日')]//a",
             "description": "//p[@class='p-workPage__text']",
