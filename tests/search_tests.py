@@ -225,12 +225,12 @@ class SearchTests(unittest.TestCase):
         base = BeFree()
 
         result = base.search("aaaaaaaaa")
-        self.assertEqual(result, [])
+        self.assertEqual([], result)
 
         result = base.search("BF-640")
         self.assertTrue(len(result) == 1)
         self.assertTrue(result[0].startswith("http"))
-        self.assertTrue("bf640" in result[0])
+        self.assertTrue("BF640" in result[0])
 
     def test_bi(self):
         base = Bi()
