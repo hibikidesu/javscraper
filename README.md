@@ -19,7 +19,6 @@ Scraper library for JAVs.
 - KMProduce
 - Max-A
 - MGStage
-- R18
 - S1
 - SOD Prime
 - 1pondo

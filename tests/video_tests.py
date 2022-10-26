@@ -85,31 +85,6 @@ class VideoTests(unittest.TestCase):
         self.assertTrue(result.sample_video.startswith("http"))
         self.assertTrue(result.score > 4)
 
-    def test_r18(self):
-        base = R18()
-
-        result = base.get_video("MIDE_805")
-        self.assertIsNone(result)
-
-        result = base.get_video("MIDE-805")
-        self.assertIsNotNone(result)
-        self.assertEqual(result.code, "MIDE-805")
-        self.assertEqual(result.studio, "MOODYZ")
-        self.assertTrue(result.image.startswith("https"))
-        self.assertEqual(len(result.actresses), 1)
-        self.assertEqual(result.actresses[0], "Shoko Takahashi")
-        self.assertIsNotNone(result.sample_video)
-        self.assertIsNone(result.description)
-        self.assertTrue(result.sample_video.startswith("http"))
-
-        result = base.get_video("POW-051")
-        self.assertIsNotNone(result)
-        self.assertEqual(result.code, "POW-051")
-        self.assertTrue(result.image.startswith("https"))
-        self.assertEqual(len(result.actresses), 1)
-        self.assertEqual(result.actresses[0], "Nano Hinano")
-        self.assertIsNotNone(result.sample_video)
-
     def test_s1(self):
         base = S1()
 

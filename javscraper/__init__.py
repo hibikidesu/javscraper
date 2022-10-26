@@ -16,9 +16,8 @@ from .kmproduce import KMProduce
 from .maxa import MaxA
 from .mgstage import MGStage
 from .onepondo import OnePondo
-from .r18 import R18
 from .s1 import S1
 from .sod import SOD
 from .tenmusume import TenMusume
 
-__version__ = "1.1.9"
+__version__ = "1.2.0"
