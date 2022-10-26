@@ -66,14 +66,6 @@ class SearchTests(unittest.TestCase):
         result = base.search("345SIMM")
         self.assertTrue(len(result) > 0)
 
-    def test_r18(self):
-        base = R18()
-
-        result = base.search("MIDE-805")
-        self.assertTrue(len(result) > 0)
-        self.assertTrue("mide00805" in result[0])
-        self.assertTrue(result[0].startswith("http"))
-
     def test_sod(self):
         base = SOD()
 
@@ -115,17 +107,6 @@ class SearchTests(unittest.TestCase):
 
     def test_caribbeancom_en(self):
         base = Caribbeancom("en")
-
-        result = base.search("aaaaaaaaaaa")
-        self.assertEqual(result, [])
-
-        result = base.search("White bikini woman did creampie gratitude for saved life from drown", code="080621-001")
-        self.assertTrue(len(result) > 0)
-        self.assertTrue("080621-001" in result[0])
-        self.assertTrue(result[0].startswith("http"))
-
-    def test_caribbeancom_cn(self):
-        base = Caribbeancom("cn")
 
         result = base.search("aaaaaaaaaaa")
         self.assertEqual(result, [])
@@ -241,7 +222,7 @@ class SearchTests(unittest.TestCase):
         result = base.search("CJOD-307")
         self.assertTrue(len(result) == 1)
         self.assertTrue(result[0].startswith("http"))
-        self.assertTrue("cjod307" in result[0])
+        self.assertTrue("CJOD307" in result[0])
 
     def test_bigmorkal(self):
         base = BigMorkal()

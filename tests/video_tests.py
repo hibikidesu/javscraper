@@ -5,6 +5,7 @@ from javscraper import *
 class VideoTests(unittest.TestCase):
     def test_javlibrary_en(self):
         base = JAVLibrary()
+        base.debug = True
 
         result = base.get_video("abcdefghijklm")
         self.assertIsNone(result)
@@ -17,7 +18,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "Kamon Non")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
-        self.assertTrue(result.score > 9)
+        self.assertTrue(result.score > 1)
 
     def test_javlibrary_ja(self):
         base = JAVLibrary("ja")
@@ -33,7 +34,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "花門のん")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
-        self.assertTrue(result.score > 9)
+        self.assertTrue(result.score > 1)
 
     def test_javlibrary_tw(self):
         base = JAVLibrary("tw")
@@ -49,7 +50,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "花門のん")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
-        self.assertTrue(result.score > 9)
+        self.assertTrue(result.score > 1)
 
     def test_javlibrary_cn(self):
         base = JAVLibrary("cn")
@@ -65,7 +66,7 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(result.actresses[0], "花門のん")
         self.assertIsNone(result.sample_video)
         self.assertTrue(result.image.startswith("http"))
-        self.assertTrue(result.score > 9)
+        self.assertTrue(result.score > 1)
 
     def test_mgstage(self):
         base = MGStage()
@@ -180,23 +181,6 @@ class VideoTests(unittest.TestCase):
 
     def test_caribbeancom_en(self):
         base = Caribbeancom("en")
-
-        result = base.get_video("zzzzzzzzz")
-        self.assertIsNone(result)
-
-        result = base.get_video("Caribbeancom-080621_001")
-        self.assertIsNotNone(result)
-        self.assertEqual(result.code, "080621-001")
-        self.assertEqual(result.studio, "Caribbeancom")
-        self.assertTrue(result.image.startswith("https"))
-        self.assertIsNotNone(result.sample_video)
-        self.assertTrue(result.sample_video.startswith("https"))
-        self.assertEqual(len(result.actresses), 1)
-        self.assertEqual(result.actresses[0], "Anri Kizuki")
-        self.assertIsNotNone(result.description)
-
-    def test_caribbeancom_cn(self):
-        base = Caribbeancom("cn")
 
         result = base.get_video("zzzzzzzzz")
         self.assertIsNone(result)
@@ -364,6 +348,7 @@ class VideoTests(unittest.TestCase):
 
         result = base.get_video("CJOD-307")
         self.assertIsNotNone(result)
+        self.assertIsNotNone(result.name)
         self.assertEqual(result.code, "CJOD-307")
         self.assertEqual(result.studio, "Bi")
         self.assertTrue(result.image.startswith("http"))
