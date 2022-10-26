@@ -13,15 +13,14 @@ class Caribbeancom(Base, ABC):
     def __init__(self, language: str = "ja"):
         """
         Creates a caribbeancom instance
-        :param language: Result language, either ja, en or cn
+        :param language: Result language, either ja, en
         """
         self.language: str = language
         if language == "ja":
             base = "https://www.caribbeancom.com"
         elif language == "en":
             base = "https://en.caribbeancom.com/eng"
-        elif language == "cn":
-            base = "https://cn.caribbeancom.com"
+
         else:
             raise ValueError(f"Invalid language, {language}")
 
