@@ -11,7 +11,7 @@ class AliceJapan(Base, ABC):
 
     def __init__(self):
         super().__init__(base_url="https://www.alicejapan.co.jp")
-        self._set_cookies({"ageverification": "t"})
+        self._set_cookies({"ageverification": "t", "session_version": "3"})
         self._set_date_fmt("%Y年%m月%d日")
         self._set_search_xpath("//span[@class='item-title']/..")
         self._set_video_xpath({

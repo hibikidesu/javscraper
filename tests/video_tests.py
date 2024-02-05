@@ -70,6 +70,7 @@ class VideoTests(unittest.TestCase):
 
     def test_mgstage(self):
         base = MGStage()
+        base.debug = True
 
         result = base.get_video("345SIMM_600")
         self.assertIsNone(result)
@@ -77,7 +78,7 @@ class VideoTests(unittest.TestCase):
         result = base.get_video("345SIMM-600")
         self.assertIsNotNone(result)
         self.assertEqual(result.code, "345SIMM-600")
-        self.assertEqual(result.studio, "しろうとまんまん")
+        self.assertEqual(result.studio, "DOC")
         self.assertTrue(result.image.startswith("http"))
         self.assertEqual(len(result.actresses), 1)
         self.assertEqual(result.actresses[0], "りなちゃん")

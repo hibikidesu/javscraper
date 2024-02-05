@@ -111,7 +111,7 @@ class SearchTests(unittest.TestCase):
         result = base.search("aaaaaaaaaaa")
         self.assertEqual(result, [])
 
-        result = base.search("White bikini woman did creampie gratitude for saved life from drown", code="080621-001")
+        result = base.search("bikini gratitude", code="080621-001")
         self.assertTrue(len(result) > 0)
         self.assertTrue("080621-001" in result[0])
         self.assertTrue(result[0].startswith("http"))
